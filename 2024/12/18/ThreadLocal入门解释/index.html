@@ -14,7 +14,7 @@
 <meta property="og:description" content="❗读前须知无 一、什么是ThreadLocal本质上来说，ThreadLocal定义了一种特殊的变量，就像int x &#x3D; 1一样，只是ThreadLocal定义的变量有一些特殊性。具体来说，在多线程编程中，每个变量都是一份副本。（类比来说，我认为，有点像单线程环境中的深拷贝的那种感觉，只不过多线程和单线程天差地别，只是有点 类似 那种概念，而不是说他就是深拷贝哈） 二、如果没有ThreadLoca">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-18T14:15:40.000Z">
-<meta property="article:modified_time" content="2024-12-19T06:26:20.790Z">
+<meta property="article:modified_time" content="2024-12-20T06:34:58.474Z">
 <meta property="article:author" content="Dingyx">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="多线程">
@@ -82,8 +82,6 @@
     <br/>
     <span id="actions">
       <ul>
-        
-        <li><a class="icon" aria-label="上一篇" href="/2024/12/18/%E8%AF%BB%E7%A0%94%E5%AF%B9%E6%83%B3%E8%B5%B0%E6%8A%80%E6%9C%AF%E5%B2%97%E7%9A%84%E5%90%8C%E5%AD%A6%E6%9D%A5%E8%AF%B4%E6%98%AF%E5%90%A6%E6%9C%89%E5%B8%AE%E5%8A%A9%EF%BC%9F/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="下一篇" href="/2024/12/13/0%E5%9F%BA%E7%A1%80%E7%90%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -175,10 +173,10 @@
 
 <h3 id="3-对比分析"><a href="#3-对比分析" class="headerlink" title="3. 对比分析"></a>3. 对比分析</h3><p>通过实验对比，ThreadLocal的作用很明显了，就是为不同的线程都生成一个独立的ThreadLocal变量。不同线程之间不论怎么set那个ThreadLocal变量，都不会影响到那个ThreadLocal变量本身以及其他线程中的ThreadLocal变量。（简单理解，就是非常像深拷贝那种模式，但是绝对是不同的东西。只是说如果实在没明白什么意思，那可以理解为，就是深拷贝那种感觉）</p>
 <h2 id="四、内存泄漏（选读）"><a href="#四、内存泄漏（选读）" class="headerlink" title="四、内存泄漏（选读）"></a>四、内存泄漏（选读）</h2><p>一般大家学八股，都会说，ThreadLocal造成的内存泄漏，<strong>是因为ThreadLocalMap的key是弱引用而val是强引用，弱引用被垃圾回收成null，但是强引用的val仍然存在，导致每一个entry不会被GC，从而造成内存泄漏。</strong>但是这么理解这个八股的内容呢？或者说这个经典的八股回答到底对不对呢？</p>
-<p>*”<strong>ThreadLocalMap is a customized hash map suitable only for maintaining thread local values.</strong> No operations are exported outside of the ThreadLocal class. The class is package private to allow declaration of fields in class Thread. <strong>To help deal with very large and long-lived usages, the hash table entries use WeakReferences for keys.</strong> However, since reference queues are not used, stale entries are guaranteed to be removed <strong>only when the table starts running out of space.</strong>“*</p>
+<p><em>“ThreadLocalMap is a customized hash map <strong>suitable only for maintaining thread local values</strong>. No operations are exported outside of the ThreadLocal class. The class is package private to allow declaration of fields in class Thread. <strong>To help deal with very large and long-lived usages, the hash table entries use WeakReferences for keys.</strong> However, since reference queues are not used, stale entries are guaranteed to be removed <strong>only when the table starts running out of space</strong>.”</em></p>
 <p><em>”The entries in this hash map extend WeakReference, using its main ref field as the key (which is always a ThreadLocal object). <strong>Note that null keys (i.e. entry.get() &#x3D;&#x3D; null) mean that the key is no longer referenced, so the entry can be expunged from table.</strong> Such entries are referred to as “stale entries” in the code that follows.“</em></p>
 <p>这两段官方文档就说得很清楚了。首先，如果在ThreadLocalMap中，如果key是null，那么这个entry（entry就是键值对的意思哈）就被认为是废弃的entry（steal entry），这些steal entry就是内存泄漏的根本原因。而这些steal entry并<strong>不是不会</strong>被GC，根据官方文档，他们是<strong>只会</strong>在哈希表空间不足的时候被GC，原因是没有使用引用队列或者说某种通知机制去通知ThreadLocalMap应该清除哪些entry。</p>
-<p>所以总结来说，为什么ThreadLocal有可能导致什么问题呢，大量steal entry堆积导致内存泄漏，然后这个steal entry堆积并不是永远会堆积在那里，而是在哈希表空间不够了的情况下才去做GC，如果这时候还是频繁写入数据的话，就会爆内存了。</p>
+<p>所以总结来说，要是钻牛角尖的话，常规八股回答是不正确的。为什么ThreadLocal有可能导致什么问题呢，大量steal entry堆积导致内存泄漏，然后这个steal entry堆积<strong>并不是永远会堆积在那里</strong>，而是在哈希表空间不够了的情况下才去做GC，如果这时候还是频繁写入数据的话，就会爆内存了。大部分八股为了大家方便理解可能会说因为entry不会被GC，实际上是会的，只是有限制。</p>
 
   </div>
 </article>
