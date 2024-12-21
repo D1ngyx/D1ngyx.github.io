@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5-%E8%81%9A%E5%90%88%E7%B4%A2%E5%BC%95%E5%92%8C%E5%9B%9E%E8%A1%A8/1-1.png">
 <meta property="article:published_time" content="2024-12-21T05:01:51.000Z">
-<meta property="article:modified_time" content="2024-12-21T06:13:03.607Z">
+<meta property="article:modified_time" content="2024-12-21T06:19:30.332Z">
 <meta property="article:author" content="Dingyx">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -169,7 +169,7 @@
 <p>​	<em>The leaf nodes of a clustered index contain the data pages. A nonclustered index is a special type of index in which the logical order of the index does not match the physical stored order of the rows on disk. The leaf node of a nonclustered index does not consist of the data pages.</em><br>​	这段话说的核心大概是，<em>聚合索引的叶节点，由数据页组成，而非聚合结点不是。</em>然后说什么逻辑顺序、物理存储什么的，我就不太明白在说什么了，但是咱们毕竟是初学，先理解一个大概。</p>
 <p>​	例如我想知道<b style="color:green">李四</b>的年龄是多少，在聚合索引中，直接就可以知道<b style="color:green">李四</b>年龄是<b style="color:green">24</b>岁。而在非聚合索引中，我只知道我可以从<b style="color:green">0x2222</b>这块内存中找到<b style="color:green">李四</b>这一行的更具体的信息，但是具体是什么呢，我不知道，我要对数据库<strong>做IO</strong>，读到真正的数据，才知道李四的年龄是什么。如果您理解了这段话，那您应该已经在不经意间，理解了 “回表” 是什么意思。	</p>
 <h2 id="2-回表"><a href="#2-回表" class="headerlink" title="2. 回表"></a>2. 回表</h2><p>​	其实很多人在看到这个词的时候，会感觉这可能是一个很高深很牛逼的操作，其实不是，要知道这些技术词汇很多只是为了<strong>书面表达得比较优雅一些</strong>。</p>
-<p>​	在不同的数据库中，回表的英文定义是不同的，但是大多数情况下，回表被认为是：<strong>table lookup</strong>。什么意思呢。根据词典释义，回表的英文直译，其实就是：<em>“从表中搜索数据”（lookup: to try to find a piece of information by looking in a book or on a computer）</em>。所以您应该能够理解前面提到的，书面表达的优雅一些，您不能见到人就和他说，<em>“诶，你知道吗，非聚合索引会导致出现重复从表中搜索数据的问题”</em>。如果换成，<em>“诶，你知道吗，非聚合索引会导致出现回表问题”</em>，是不是雅多了呢。真的不是说造词、搞得高大上什么的，真的不是。您总不能看到一只猫猫，然后跑去和别人说，<em>“诶，你看到那个，小型四足哺乳动物，身体柔韧，覆盖有细密的毛发，耳尖直立，眼睛能适应暗光环境，爪子可伸缩，用于捕猎或攀爬，尾巴长而灵活，的动物了吗”</em>，对吧。所以这是一种必要的书面表达。</p>
+<p>​	在不同的数据库中，回表的英文定义是不同的，但是大多数情况下，回表被认为是：<strong>table lookup</strong>。什么意思呢。根据词典释义，回表的英文直译，其实就是：<em>“从表中搜索数据”（lookup: to try to find a piece of information by looking in a book or on a computer）</em>。<br>​	所以您应该能够理解前面提到的，书面表达的优雅一些，您不能见到人就和他说，<br>​	<em>“诶，你知道吗，非聚合索引会导致出现重复从表中搜索数据的问题”</em>。<br>​	如果换成，<br>​	<em>“诶，你知道吗，非聚合索引会导致出现回表问题”</em>。<br>​	是不是好多了呢。所以真的不是说造词、搞得高大上什么的，真的不是，只是便于同行之间的交流和理解。<br>​	您总不能看到一只猫猫，然后跑去和别人说，<em>“诶，你看到那个，小型四足哺乳动物，身体柔韧，覆盖有细密的毛发，耳尖直立，眼睛能适应暗光环境，爪子可伸缩，用于捕猎或攀爬，尾巴长而灵活，的动物了吗”</em>，对吧。所以这是一种必要的书面表达。</p>
 <p>​	所以通过上述简短的介绍，您应该大致能够知道，回表，指的就是<strong>需要根据索引提供的内存地址，重新根据内存地址，去物理磁盘中，做IO，找到索引对应的数据行，的这个过程。</strong></p>
 <p>​	当然了，这是个人理解，附上官方释义：“<em>回表（Table Lookup）是数据库查询优化中的一个概念，指的是在使用非聚集索引（Secondary Index 或 Non-Clustered Index）进行查询时，数据库引擎需要通过非聚集索引找到数据行的位置（通常是主键或行标识符），然后再根据这些位置从聚集索引或数据文件中读取完整的数据行的过程</em>‌。‌”</p>
 
