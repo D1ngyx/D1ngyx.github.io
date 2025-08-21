@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{ partial "header.html" . }}
+</head>
+<body>
+  <!-- 顶部菜单 -->
+  <header class="topbar">
+    <nav>
+      <ul class="menu">
+        <li class="menu-left">
+          <button id="toggleSidebar">DirNav 🗺️</button>
+        </li>
+        {{ range .Site.Menus.main }}
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 左边目录 -->
+    <aside class="sidebar hidden" id="sidebar">
+      <div class="resizer" id="resizer"></div>
+
+      <div class="toc">
+        <h3>Directory</h3>
+        <ul>
+          {{ .TableOfContents }}
+        </ul>
+      </div>
+    </aside>
+
+    <!-- 主体内容 -->
+    <main class="content">
+      {{ block "main" . }}{{ end }}
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>

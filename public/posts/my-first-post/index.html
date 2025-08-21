@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Docker基础 | My New Hugo Site</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  
+  <header class="topbar">
+    <nav>
+      <ul class="menu">
+        <li class="menu-left">
+          <button id="toggleSidebar">DirNav 🗺️</button>
+        </li>
+        
+        <li><a href="/">Home 🏠</a></li>
+        
+        <li><a href="/posts/">Posts 📚</a></li>
+        
+        <li><a href="/tags/">Tags 🏷️</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    
+    <aside class="sidebar hidden" id="sidebar">
+      <div class="resizer" id="resizer"></div>
+
+      <div class="toc">
+        <h3>Directory</h3>
+        <ul>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#图片测试">图片测试</a></li>
+    <li><a href="#1-查看-image">1. 查看 image</a>
+      <ul>
+        <li><a href="#标题三">标题三</a>
+          <ul>
+            <li><a href="#标题四">标题四</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2-创建-container">2. 创建 container</a></li>
+    <li><a href="#3-查看-container">3. 查看 container</a></li>
+    <li><a href="#4-启动-container">4. 启动 container</a></li>
+    <li><a href="#5-进入-container-的终端">5. 进入 container 的终端</a></li>
+    <li><a href="#6-停止-container">6. 停止 container</a></li>
+    <li><a href="#x-删除一个container">x. 删除一个container</a></li>
+  </ul>
+</nav>
+        </ul>
+      </div>
+    </aside>
+
+    
+    <main class="content">
+      
+  <article>
+    <h1>Docker基础</h1>
+    <h2 id="图片测试">图片测试</h2>
+<!-- ![测试图片](/images/a_rainbow_colored_logo_with_an_apple.png) -->
+<img src="/images/a_rainbow_colored_logo_with_an_apple.png" alt="测试图片" width="50%">
+<h2 id="1-查看-image">1. 查看 image</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>16:28:39<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker images
+</span></span><span style="display:flex;"><span>REPOSITORY   TAG                       IMAGE ID       CREATED        SIZE
+</span></span><span style="display:flex;"><span>ubuntu       focal-20250404            8feb4d8ca535   <span style="color:#bd93f9">3</span> months ago   101MB
+</span></span><span style="display:flex;"><span>ros          noetic-perception-focal   32370c500818   <span style="color:#bd93f9">4</span> years ago    4.89GB
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>16:28:42<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.095s<span style="color:#ff79c6">]</span> docker images
+</span></span></code></pre></div><h3 id="标题三">标题三</h3>
+<p><code>hello</code> you</p>
+<h4 id="标题四">标题四</h4>
+<blockquote>
+<p>标题四段落</p></blockquote>
+<h2 id="2-创建-container">2. 创建 container</h2>
+<p>💡解释：使用镜像 TAG <code>focal-20250404</code> 创建一个名为 <code>ubuntu20</code> 的container，并且通过 -v 命令把宿主机 <code>/Users/dingyx</code> 目录下的所有文件，挂载到虚拟机 <code>/home/dingyx</code> 的目录下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>17:20:39<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker create -v /Users/dingyx/dockerSpace:/mnt -it --name ubuntu20 ubuntu:focal-20250404
+</span></span><span style="display:flex;"><span>40dbe94b240db92673accd73175f58d0348aed85288d1b0a26f445cda367e747
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>17:25:45<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.947s<span style="color:#ff79c6">]</span> docker create -v /Users/dingyx:/home/dingyx -it --name ubuntu20 ubuntu:focal-20250404
+</span></span></code></pre></div><h2 id="3-查看-container">3. 查看 container</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>17:29:25<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker ps -a
+</span></span><span style="display:flex;"><span>CONTAINER ID   IMAGE                   COMMAND       CREATED         STATUS    PORTS     NAMES
+</span></span><span style="display:flex;"><span>40dbe94b240d   ubuntu:focal-20250404   <span style="color:#f1fa8c">&#34;/bin/bash&#34;</span>   <span style="color:#bd93f9">3</span> minutes ago   Created             ubuntu20
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>17:29:27<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.097s<span style="color:#ff79c6">]</span> docker ps -a
+</span></span></code></pre></div><h2 id="4-启动-container">4. 启动 container</h2>
+<p>💡解释：根据查看 container 中的 NAMES 列，启动名为 NAMES 的一个镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>17:31:04<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker start ubuntu20
+</span></span><span style="display:flex;"><span>ubuntu20
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>17:31:27<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.959s<span style="color:#ff79c6">]</span> docker start ubuntu20
+</span></span></code></pre></div><h2 id="5-进入-container-的终端">5. 进入 container 的终端</h2>
+<p>⚠️注意：当你使用别人的container，有可能不是通过 <code>/bin/bash</code> 进的终端，比如nvidia的一些设备是通过 <code>/bin/sh</code> 进入的，这个在启动的时候可以都尝试一下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>13:17:40<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker <span style="color:#8be9fd;font-style:italic">exec</span> -it ubuntu20 /bin/bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>root@e03fb0a3931c:/# 
+</span></span></code></pre></div><h2 id="6-停止-container">6. 停止 container</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>13:19:38<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker stop ubuntu20
+</span></span><span style="display:flex;"><span>ubuntu20
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>13:19:41<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.150s<span style="color:#ff79c6">]</span> docker stop ubuntu20
+</span></span></code></pre></div><h2 id="x-删除一个container">x. 删除一个container</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">[</span>16:43:24<span style="color:#ff79c6">]</span> dingyx <span style="color:#ff79c6">(</span>base<span style="color:#ff79c6">)</span> ~
+</span></span><span style="display:flex;"><span>$ docker rm ubuntu20
+</span></span><span style="display:flex;"><span>ubuntu20
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[</span>16:43:29<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>cost 0.875s<span style="color:#ff79c6">]</span> docker rm ubuntu20
+</span></span></code></pre></div>
+  </article>
+
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>

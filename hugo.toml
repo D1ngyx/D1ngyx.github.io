@@ -1,0 +1,28 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+theme = 'dingyx-theme'
+
+[markup]
+  [markup.highlight] 
+    style = "dracula" 
+  [markup.tableOfContents]
+    startLevel = 2   # 从 h2 开始
+    endLevel = 4     # 到 h4 结束
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # 让 md 能显示原生html内容
+    
+[menu]
+  [[menu.main]]
+    name = "Home 🏠"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Posts 📚"
+    url = "/posts/"
+    weight = 2
+  [[menu.main]]
+    name = "Tags 🏷️"
+    url = "/tags/"
+    weight = 3

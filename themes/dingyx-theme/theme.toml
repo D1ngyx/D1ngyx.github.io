@@ -1,0 +1,19 @@
+theme = "minimal-black"
+
+[params]
+  # 可选配置
+  title = "this is a title oo" 
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 2
+  [[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 3
