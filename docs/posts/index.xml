@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on My New Hugo Site</title><link>https://D1ngyx.github.io/posts/</link><description>Recent content in Posts on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 17 Aug 2025 09:52:15 +0800</lastBuildDate><atom:link href="https://D1ngyx.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker基础</title><link>https://D1ngyx.github.io/posts/my-first-post/</link><pubDate>Sun, 17 Aug 2025 09:52:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/my-first-post/</guid><description>&lt;h2 id="图片测试">图片测试&lt;/h2>
+&lt;!-- ![测试图片](/images/a_rainbow_colored_logo_with_an_apple.png) -->
+&lt;img src="https://D1ngyx.github.io/images/a_rainbow_colored_logo_with_an_apple.png" alt="测试图片" width="50%">
+&lt;h2 id="1-查看-image">1. 查看 image&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>16:28:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker images
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>REPOSITORY TAG IMAGE ID CREATED SIZE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ubuntu focal-20250404 8feb4d8ca535 &lt;span style="color:#bd93f9">3&lt;/span> months ago 101MB
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ros noetic-perception-focal 32370c500818 &lt;span style="color:#bd93f9">4&lt;/span> years ago 4.89GB
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>16:28:42&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.095s&lt;span style="color:#ff79c6">]&lt;/span> docker images
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="标题三">标题三&lt;/h3>
+&lt;p>&lt;code>hello&lt;/code> you&lt;/p>
+&lt;h4 id="标题四">标题四&lt;/h4>
+&lt;blockquote>
+&lt;p>标题四段落&lt;/p>&lt;/blockquote>
+&lt;h2 id="2-创建-container">2. 创建 container&lt;/h2>
+&lt;p>💡解释：使用镜像 TAG &lt;code>focal-20250404&lt;/code> 创建一个名为 &lt;code>ubuntu20&lt;/code> 的container，并且通过 -v 命令把宿主机 &lt;code>/Users/dingyx&lt;/code> 目录下的所有文件，挂载到虚拟机 &lt;code>/home/dingyx&lt;/code> 的目录下。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:20:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker create -v /Users/dingyx/dockerSpace:/mnt -it --name ubuntu20 ubuntu:focal-20250404
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240db92673accd73175f58d0348aed85288d1b0a26f445cda367e747
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:25:45&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.947s&lt;span style="color:#ff79c6">]&lt;/span> docker create -v /Users/dingyx:/home/dingyx -it --name ubuntu20 ubuntu:focal-20250404
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="3-查看-container">3. 查看 container&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:29:25&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker ps -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240d ubuntu:focal-20250404 &lt;span style="color:#f1fa8c">&amp;#34;/bin/bash&amp;#34;&lt;/span> &lt;span style="color:#bd93f9">3&lt;/span> minutes ago Created ubuntu20
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:29:27&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.097s&lt;span style="color:#ff79c6">]&lt;/span> docker ps -a
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="4-启动-container">4. 启动 container&lt;/h2>
+&lt;p>💡解释：根据查看 container 中的 NAMES 列，启动名为 NAMES 的一个镜像&lt;/p></description></item></channel></rss>
