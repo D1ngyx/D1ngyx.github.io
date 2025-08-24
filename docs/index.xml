@@ -8,9 +8,16 @@
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> hugo --minify --destination docs
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>​	如果正常，应在项目根路径下生成如下目录：&lt;/p>
 &lt;img src="https://D1ngyx.github.io/images/generate_docs.png" alt="generate_docs" width="10%">
-&lt;h3 id="32-github仓库设置">3.2 Github仓库设置&lt;/h3>
+&lt;p>​	然后要记得在 &lt;code>hugo.homl&lt;/code> 目录下配置一下 baseURL：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 原版官方生成的大概率是这个，注释掉 &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># baseURL = &amp;#39;https://example.org/&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 这个 `baseURL` 就是你的域名，如果没有买域名那就是 Github 静态页面的标准地址&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8be9fd;font-style:italic">baseURL&lt;/span> &lt;span style="color:#ff79c6">=&lt;/span> &lt;span style="color:#f1fa8c">&amp;#39;https://你的Github用户名.github.io/&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="32-github仓库设置">3.2 Github仓库设置&lt;/h3>
 &lt;p>​	原因在于，我们需要在 Github 的 Pages 页面做如下设置，让他从 &lt;code>docs&lt;/code> 路径下解析静态页面，而不是从默认的 root 路径下。&lt;/p>
-&lt;img src="https://D1ngyx.github.io/images/modify_github_pages.png" alt="modify_github_pages" width="50%"></description></item><item><title>Docker基础</title><link>https://D1ngyx.github.io/posts/my-first-post/</link><pubDate>Sun, 17 Aug 2025 09:52:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/my-first-post/</guid><description>&lt;h2 id="1-查看-image">1. 查看 image&lt;/h2>
+&lt;img src="https://D1ngyx.github.io/images/modify_github_pages.png" alt="modify_github_pages" width="50%">
+&lt;h3 id="33-推送到-github">3.3 推送到 Github&lt;/h3>
+&lt;p>​	确保设置了远程仓库的地址。&lt;/p></description></item><item><title>Docker基础</title><link>https://D1ngyx.github.io/posts/my-first-post/</link><pubDate>Sun, 17 Aug 2025 09:52:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/my-first-post/</guid><description>&lt;h2 id="1-查看-image">1. 查看 image&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>16:28:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker images
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>REPOSITORY TAG IMAGE ID CREATED SIZE

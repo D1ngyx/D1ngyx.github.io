@@ -42,6 +42,7 @@
       <ul>
         <li><a href="#31-项目导出">3.1 项目导出</a></li>
         <li><a href="#32-github仓库设置">3.2 Github仓库设置</a></li>
+        <li><a href="#33-推送到-github">3.3 推送到 Github</a></li>
       </ul>
     </li>
   </ul>
@@ -65,10 +66,22 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> hugo --minify --destination docs
 </span></span></code></pre></div><p>​	如果正常，应在项目根路径下生成如下目录：</p>
 <img src="/images/generate_docs.png" alt="generate_docs" width="10%">
-<h3 id="32-github仓库设置">3.2 Github仓库设置</h3>
+<p>​	然后要记得在 <code>hugo.homl</code> 目录下配置一下 baseURL：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#6272a4"># 原版官方生成的大概率是这个，注释掉 </span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># baseURL = &#39;https://example.org/&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># 这个 `baseURL` 就是你的域名，如果没有买域名那就是 Github 静态页面的标准地址</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">baseURL</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;https://你的Github用户名.github.io/&#39;</span>
+</span></span></code></pre></div><h3 id="32-github仓库设置">3.2 Github仓库设置</h3>
 <p>​	原因在于，我们需要在 Github 的 Pages 页面做如下设置，让他从 <code>docs</code> 路径下解析静态页面，而不是从默认的 root 路径下。</p>
 <img src="/images/modify_github_pages.png" alt="modify_github_pages" width="50%">
-
+<h3 id="33-推送到-github">3.3 推送到 Github</h3>
+<p>​	确保设置了远程仓库的地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git remote add origin https://github.com/xxx/xxx.git	
+</span></span></code></pre></div><p>​	直接一套常规操作推上去即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#f1fa8c">&#34;[x]: Comment&#34;</span>
+</span></span><span style="display:flex;"><span>git push -u origin main
+</span></span></code></pre></div>
   </article>
 
     </main>

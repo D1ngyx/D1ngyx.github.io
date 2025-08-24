@@ -27,12 +27,40 @@ toc = true  # 启用目录
 <img src="/images/generate_docs.png" alt="generate_docs" width="10%">
 
 
+​	然后要记得在 `hugo.homl` 目录下配置一下 baseURL：
+
+```bash
+# 原版官方生成的大概率是这个，注释掉 
+# baseURL = 'https://example.org/'
+# 这个 `baseURL` 就是你的域名，如果没有买域名那就是 Github 静态页面的标准地址
+baseURL = 'https://你的Github用户名.github.io/'
+```
+
+
 
 ### 3.2 Github仓库设置
 
 ​	原因在于，我们需要在 Github 的 Pages 页面做如下设置，让他从 `docs` 路径下解析静态页面，而不是从默认的 root 路径下。
 
 <img src="/images/modify_github_pages.png" alt="modify_github_pages" width="50%">
+
+
+
+### 3.3 推送到 Github
+
+​	确保设置了远程仓库的地址。
+
+```bash
+git remote add origin https://github.com/xxx/xxx.git	
+```
+
+​	直接一套常规操作推上去即可。
+
+```bash
+git add .
+git commit -m "[x]: Comment"
+git push -u origin main
+```
 
 
 
