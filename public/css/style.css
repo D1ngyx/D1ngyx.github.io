@@ -1,0 +1,159 @@
+/*
+背景       #3f3f3f
+字体       #dedede
+链接       #8cd0d3
+代码块      #303030
+行内代码    #87AE86
+*/
+
+body {
+  margin: 0;
+  background: #3f3f3f;
+  color: #dedede;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 顶部菜单 */
+.topbar {
+  background: #3f3f3f;
+  padding: 1rem 1rem;
+  border-bottom: 2px solid #333;
+}
+
+.menu {
+  margin: 0rem;
+  padding: 0rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 1rem;
+}
+
+.menu li {
+  margin-right: 1rem;
+}
+
+.menu-right {
+  margin-left: auto;
+}
+
+.menu li a {
+  color: #6ab4ff;
+  text-decoration: none;
+  height: 100%;
+}
+.menu li a:hover{
+  text-decoration: underline; 
+}
+
+.menu button {
+  text-decoration: none;
+  background: #333;
+  color: #6ab4ff;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 0rem 0.6rem;
+  cursor: pointer;
+  font-family: inherit; 
+  font-size: inherit; 
+}
+.menu button:hover {
+  background: #222;
+}
+
+/* 主体容器 */
+.container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 左侧目录 */
+.sidebar {
+  width: 16%;
+  min-width: 150px;
+  max-width: 50%;
+  background: #3f3f3f;
+  padding: 1rem;
+  border-right: 1px solid #222;
+  overflow-y: auto;
+  position: relative;
+  transition: width 0.2s ease;
+}
+
+.sidebar.hidden {
+  display: none;
+}
+
+/* 可拖拽条 */
+.resizer {
+  width: 4px;
+  background: #333;
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* 主体内容 */
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+a {
+  color: #8cd0d3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline; 
+}
+
+
+/* 设置代码块样式 */
+pre code {
+  display: block;
+  padding: 1rem;
+  background: #303030;
+  color: #ddd;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+/* bash 代码块专属样式 */
+/* code.language-bash {
+  background: #111;
+  color: #00ff88; 
+} */
+
+/* 行内代码样式 */
+p > code {
+  background: #87AE86;
+  color: #000; 
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}
+
+/* 调整列表的缩进 */
+.sidebar .toc ul {
+  margin: 0;
+  padding-left: 0rem; 
+  list-style-position: inside; 
+}
+
+/* 二级目录缩进 */
+.sidebar .toc ul ul {
+  padding-left: 1rem; 
+}
+
+/* 三级目录缩进 */
+.sidebar .toc ul ul ul {
+  padding-left: 1rem; 
+}

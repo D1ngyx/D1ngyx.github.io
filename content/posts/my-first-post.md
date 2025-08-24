@@ -1,12 +1,8 @@
 +++
 date = '2025-08-17T09:52:15+08:00'
 title = 'Docker基础'
-toc = true  # 添加此行启用目录
+toc = true  # 启用目录
 +++
-
-## 图片测试
-<!-- ![测试图片](/images/a_rainbow_colored_logo_with_an_apple.png) -->
-<img src="/images/a_rainbow_colored_logo_with_an_apple.png" alt="测试图片" width="50%">
 
 
 ## 1. 查看 image
