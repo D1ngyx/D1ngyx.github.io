@@ -74,7 +74,7 @@
 </span></span><span style="display:flex;"><span>├── CMakeLists.txt
 </span></span><span style="display:flex;"><span>├── include
 </span></span><span style="display:flex;"><span>└── src
-</span></span></code></pre></div><p>通过以下命令来生成 compile_commands.json 到 build 目录中**（cmake 和 catkin_make 都适用）**</p>
+</span></span></code></pre></div><p>通过以下命令来生成 compile_commands.json 到 build 目录中 (<strong>cmake 和 catkin_make 都适用</strong>)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS<span style="color:#ff79c6">=</span>ON
 </span></span></code></pre></div><p>由此，您应该能够在 build 目录下看到一个 compile_commands.json 文件。</p>
 <p>需要注意的是 compile_commands.json 文件是<strong>不会</strong> 自动更新的，如果您修改代码或者头文件，必须 <strong>重新</strong> 编译并使用 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON 参数。</p>

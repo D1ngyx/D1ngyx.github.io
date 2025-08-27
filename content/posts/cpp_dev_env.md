@@ -38,7 +38,7 @@ dingyx in ~/Temporary/cpp_project_root
 └── src
 ```
 
-通过以下命令来生成 compile_commands.json 到 build 目录中**（cmake 和 catkin_make 都适用）**
+通过以下命令来生成 compile_commands.json 到 build 目录中 (**cmake 和 catkin_make 都适用**)
 
 ```bash
 cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
