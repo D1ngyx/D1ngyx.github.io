@@ -1,4 +1,69 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>My New Hugo Site</title><link>https://D1ngyx.github.io/</link><description>Recent content on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 27 Aug 2025 13:02:40 +0800</lastBuildDate><atom:link href="https://D1ngyx.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>个人Neovim和Tmux配置</title><link>https://D1ngyx.github.io/posts/personal_dev_tool_config/</link><pubDate>Wed, 27 Aug 2025 13:02:40 +0800</pubDate><guid>https://D1ngyx.github.io/posts/personal_dev_tool_config/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 个人工作中用的 Neovim 和 Tmux 配置。备忘用，供参考。如果您使用这些工具，应该定义自己舒服的工作流，而不是照搬网上的配置，否则Vscode确实已经足够强大 :)&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>My New Hugo Site</title><link>https://D1ngyx.github.io/</link><description>Recent content on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 27 Aug 2025 08:19:56 +0800</lastBuildDate><atom:link href="https://D1ngyx.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>CPP基础开发环境配置</title><link>https://D1ngyx.github.io/posts/cpp_dev_env/</link><pubDate>Wed, 27 Aug 2025 08:19:56 +0800</pubDate><guid>https://D1ngyx.github.io/posts/cpp_dev_env/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 这里的 CPP 开发环境，指的是为文本编辑器配置特定语言的补全以及诊断功能。显示的配置方式有很多，这里只展示本人在&lt;strong>工作中&lt;/strong>经常用到的一种。经实测，适用于常规 &lt;strong>CPP&lt;/strong> 项目开发，或者 &lt;strong>ROS&lt;/strong> 中的 CPP 项目开发。
+&lt;/br>&lt;/br>&lt;/p>
+&lt;h2 id="1-提供语言服务">1. 提供语言服务&lt;/h2>
+&lt;h3 id="11--基本逻辑">1.1 基本逻辑&lt;/h3>
+&lt;p>现代文本编辑器的语言支持，依赖语言服务协议（LanguageServerProtocol, LSP），来为文本编辑器实时检测功能。&lt;/p>
+&lt;img src="https://D1ngyx.github.io/images/cppconfig_overall.png" alt="cppconfig_overall" />
+&lt;p>本质来说，实现语言服务功能，是要让文本编辑器能够读取到编译时需要的各种路径和库，从而实现语言支持。&lt;/p>
+&lt;p>对于常规的 &lt;code>cmake&lt;/code>，或者是 ros 中的 &lt;code>catkin_make&lt;/code>，可以通过 &lt;code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON&lt;/code> 来生成一个叫做 &lt;code>compile_commands.json&lt;/code> 的文件。&lt;/p>
+&lt;p>简单来说，我们只需要让文本编辑器，读取这个 compile_commands.json 里面的内容，就可以实现基本的补全、高亮、诊断的基础语言服务功能了。&lt;/p>
+&lt;h3 id="12-具体实现">1.2 具体实现&lt;/h3>
+&lt;p>假设我们在一个标准的 CPP 开发项目目录中，结构如下。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dingyx in ~/Temporary/cpp_project_root
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt; tree
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── build
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── CMakeLists.txt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── include
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── src
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过以下命令来生成 compile_commands.json 到 build 目录中 (&lt;strong>cmake 和 catkin_make 都适用&lt;/strong>)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span style="color:#ff79c6">=&lt;/span>ON
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>由此，您应该能够在 build 目录下看到一个 compile_commands.json 文件。&lt;/p>
+&lt;p>需要注意的是 compile_commands.json 文件是&lt;strong>不会&lt;/strong> 自动更新的，如果您修改代码或者头文件，必须 &lt;strong>重新&lt;/strong> 编译并使用 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON 参数。&lt;/p></description></item><item><title>Hugo入门</title><link>https://D1ngyx.github.io/posts/hugo%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80/</link><pubDate>Sun, 24 Aug 2025 13:16:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/hugo%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80/</guid><description>&lt;h2 id="1-基本内容">1. 基本内容&lt;/h2>
+&lt;h2 id="2-自定义主题">2. 自定义主题&lt;/h2>
+&lt;h2 id="3-部署到github">3. 部署到Github&lt;/h2>
+&lt;p>​	部署到 Github 到方法有很多，这里介绍本人常用的一种。比较常见的是把public文件夹上传，但是个人感觉这样有点麻烦，一种更简洁的方法是导出 &lt;code>docs&lt;/code> 文件夹然后可以把这个项目上传。&lt;/p>
+&lt;h3 id="31-项目导出">3.1 项目导出&lt;/h3>
+&lt;p>​	首先把这个hugo项目导出到 &lt;code>docs&lt;/code> 文件夹。不同于直接使用 hugo 命令生成项目到 public 目录中。&lt;/p>
+&lt;p>​	这里注意，导出到的 &lt;code>--destination&lt;/code> 指定的文件夹名字必须是 &lt;code>docs&lt;/code>。另一个 &lt;code>--minify&lt;/code> 这个参数顾名思义了，就是简化生产的文件，在使用之初不必在意。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> hugo --minify --destination docs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>​	如果正常，应在项目根路径下生成如下目录：&lt;/p>
+&lt;img src="https://D1ngyx.github.io/images/generate_docs.png" alt="generate_docs" width="10%">
+&lt;p>​	然后要记得在 &lt;code>hugo.homl&lt;/code> 目录下配置一下 baseURL：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 原版官方生成的大概率是这个，注释掉 &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># baseURL = &amp;#39;https://example.org/&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 这个 `baseURL` 就是你的域名，如果没有买域名那就是 Github 静态页面的标准地址&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8be9fd;font-style:italic">baseURL&lt;/span> &lt;span style="color:#ff79c6">=&lt;/span> &lt;span style="color:#f1fa8c">&amp;#39;https://你的Github用户名.github.io/&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="32-github仓库设置">3.2 Github仓库设置&lt;/h3>
+&lt;p>​	原因在于，我们需要在 Github 的 Pages 页面做如下设置，让他从 &lt;code>docs&lt;/code> 路径下解析静态页面，而不是从默认的 root 路径下。&lt;/p>
+&lt;img src="https://D1ngyx.github.io/images/modify_github_pages.png" alt="modify_github_pages" width="50%">
+&lt;h3 id="33-推送到-github">3.3 推送到 Github&lt;/h3>
+&lt;p>​	确保设置了远程仓库的地址。&lt;/p></description></item><item><title>Docker基础</title><link>https://D1ngyx.github.io/posts/my-first-post/</link><pubDate>Sun, 17 Aug 2025 09:52:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/my-first-post/</guid><description>&lt;h2 id="1-查看-image">1. 查看 image&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>16:28:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker images
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>REPOSITORY TAG IMAGE ID CREATED SIZE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ubuntu focal-20250404 8feb4d8ca535 &lt;span style="color:#bd93f9">3&lt;/span> months ago 101MB
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ros noetic-perception-focal 32370c500818 &lt;span style="color:#bd93f9">4&lt;/span> years ago 4.89GB
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>16:28:42&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.095s&lt;span style="color:#ff79c6">]&lt;/span> docker images
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="标题三">标题三&lt;/h3>
+&lt;p>&lt;code>hello&lt;/code> you&lt;/p>
+&lt;h4 id="标题四">标题四&lt;/h4>
+&lt;blockquote>
+&lt;p>标题四段落&lt;/p>&lt;/blockquote>
+&lt;h2 id="2-创建-container">2. 创建 container&lt;/h2>
+&lt;p>💡解释：使用镜像 TAG &lt;code>focal-20250404&lt;/code> 创建一个名为 &lt;code>ubuntu20&lt;/code> 的container，并且通过 -v 命令把宿主机 &lt;code>/Users/dingyx&lt;/code> 目录下的所有文件，挂载到虚拟机 &lt;code>/home/dingyx&lt;/code> 的目录下。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:20:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker create -v /Users/dingyx/dockerSpace:/mnt -it --name ubuntu20 ubuntu:focal-20250404
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240db92673accd73175f58d0348aed85288d1b0a26f445cda367e747
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:25:45&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.947s&lt;span style="color:#ff79c6">]&lt;/span> docker create -v /Users/dingyx:/home/dingyx -it --name ubuntu20 ubuntu:focal-20250404
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="3-查看-container">3. 查看 container&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:29:25&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker ps -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240d ubuntu:focal-20250404 &lt;span style="color:#f1fa8c">&amp;#34;/bin/bash&amp;#34;&lt;/span> &lt;span style="color:#bd93f9">3&lt;/span> minutes ago Created ubuntu20
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:29:27&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.097s&lt;span style="color:#ff79c6">]&lt;/span> docker ps -a
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="4-启动-container">4. 启动 container&lt;/h2>
+&lt;p>💡解释：根据查看 container 中的 NAMES 列，启动名为 NAMES 的一个镜像&lt;/p></description></item><item><title>个人Neovim和Tmux配置</title><link>https://D1ngyx.github.io/posts/personal_dev_tool_config/</link><pubDate>Sat, 09 Oct 1999 15:00:00 +0800</pubDate><guid>https://D1ngyx.github.io/posts/personal_dev_tool_config/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 个人工作中用的 Neovim 和 Tmux 配置。备忘用，供参考。如果您使用这些工具，应该定义自己舒服的工作流，而不是照搬网上的配置，否则Vscode确实已经足够强大 :)&lt;/p>
 &lt;h2 id="neovim">Neovim&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lua" data-lang="lua">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4">-- ============================================================================&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4">-- Global Definition&lt;/span>
@@ -308,69 +373,4 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>})
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vim.cmd.colorscheme(&lt;span style="color:#f1fa8c">&amp;#34;vague&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;/br>&lt;/br>&lt;/br>&lt;/p></description></item><item><title>CPP基础开发环境配置</title><link>https://D1ngyx.github.io/posts/cpp_dev_env/</link><pubDate>Wed, 27 Aug 2025 08:19:56 +0800</pubDate><guid>https://D1ngyx.github.io/posts/cpp_dev_env/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 这里的 CPP 开发环境，指的是为文本编辑器配置特定语言的补全以及诊断功能。显示的配置方式有很多，这里只展示本人在&lt;strong>工作中&lt;/strong>经常用到的一种。经实测，适用于常规 &lt;strong>CPP&lt;/strong> 项目开发，或者 &lt;strong>ROS&lt;/strong> 中的 CPP 项目开发。
-&lt;/br>&lt;/br>&lt;/p>
-&lt;h2 id="1-提供语言服务">1. 提供语言服务&lt;/h2>
-&lt;h3 id="11--基本逻辑">1.1 基本逻辑&lt;/h3>
-&lt;p>现代文本编辑器的语言支持，依赖语言服务协议（LanguageServerProtocol, LSP），来为文本编辑器实时检测功能。&lt;/p>
-&lt;img src="https://D1ngyx.github.io/images/cppconfig_overall.png" alt="cppconfig_overall" />
-&lt;p>本质来说，实现语言服务功能，是要让文本编辑器能够读取到编译时需要的各种路径和库，从而实现语言支持。&lt;/p>
-&lt;p>对于常规的 &lt;code>cmake&lt;/code>，或者是 ros 中的 &lt;code>catkin_make&lt;/code>，可以通过 &lt;code>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON&lt;/code> 来生成一个叫做 &lt;code>compile_commands.json&lt;/code> 的文件。&lt;/p>
-&lt;p>简单来说，我们只需要让文本编辑器，读取这个 compile_commands.json 里面的内容，就可以实现基本的补全、高亮、诊断的基础语言服务功能了。&lt;/p>
-&lt;h3 id="12-具体实现">1.2 具体实现&lt;/h3>
-&lt;p>假设我们在一个标准的 CPP 开发项目目录中，结构如下。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dingyx in ~/Temporary/cpp_project_root
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;gt; tree
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── build
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── CMakeLists.txt
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── include
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── src
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过以下命令来生成 compile_commands.json 到 build 目录中 (&lt;strong>cmake 和 catkin_make 都适用&lt;/strong>)&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>cmake -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS&lt;span style="color:#ff79c6">=&lt;/span>ON
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>由此，您应该能够在 build 目录下看到一个 compile_commands.json 文件。&lt;/p>
-&lt;p>需要注意的是 compile_commands.json 文件是&lt;strong>不会&lt;/strong> 自动更新的，如果您修改代码或者头文件，必须 &lt;strong>重新&lt;/strong> 编译并使用 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON 参数。&lt;/p></description></item><item><title>Hugo入门</title><link>https://D1ngyx.github.io/posts/hugo%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80/</link><pubDate>Sun, 24 Aug 2025 13:16:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/hugo%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80/</guid><description>&lt;h2 id="1-基本内容">1. 基本内容&lt;/h2>
-&lt;h2 id="2-自定义主题">2. 自定义主题&lt;/h2>
-&lt;h2 id="3-部署到github">3. 部署到Github&lt;/h2>
-&lt;p>​	部署到 Github 到方法有很多，这里介绍本人常用的一种。比较常见的是把public文件夹上传，但是个人感觉这样有点麻烦，一种更简洁的方法是导出 &lt;code>docs&lt;/code> 文件夹然后可以把这个项目上传。&lt;/p>
-&lt;h3 id="31-项目导出">3.1 项目导出&lt;/h3>
-&lt;p>​	首先把这个hugo项目导出到 &lt;code>docs&lt;/code> 文件夹。不同于直接使用 hugo 命令生成项目到 public 目录中。&lt;/p>
-&lt;p>​	这里注意，导出到的 &lt;code>--destination&lt;/code> 指定的文件夹名字必须是 &lt;code>docs&lt;/code>。另一个 &lt;code>--minify&lt;/code> 这个参数顾名思义了，就是简化生产的文件，在使用之初不必在意。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span> hugo --minify --destination docs
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>​	如果正常，应在项目根路径下生成如下目录：&lt;/p>
-&lt;img src="https://D1ngyx.github.io/images/generate_docs.png" alt="generate_docs" width="10%">
-&lt;p>​	然后要记得在 &lt;code>hugo.homl&lt;/code> 目录下配置一下 baseURL：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 原版官方生成的大概率是这个，注释掉 &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># baseURL = &amp;#39;https://example.org/&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#6272a4"># 这个 `baseURL` 就是你的域名，如果没有买域名那就是 Github 静态页面的标准地址&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8be9fd;font-style:italic">baseURL&lt;/span> &lt;span style="color:#ff79c6">=&lt;/span> &lt;span style="color:#f1fa8c">&amp;#39;https://你的Github用户名.github.io/&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="32-github仓库设置">3.2 Github仓库设置&lt;/h3>
-&lt;p>​	原因在于，我们需要在 Github 的 Pages 页面做如下设置，让他从 &lt;code>docs&lt;/code> 路径下解析静态页面，而不是从默认的 root 路径下。&lt;/p>
-&lt;img src="https://D1ngyx.github.io/images/modify_github_pages.png" alt="modify_github_pages" width="50%">
-&lt;h3 id="33-推送到-github">3.3 推送到 Github&lt;/h3>
-&lt;p>​	确保设置了远程仓库的地址。&lt;/p></description></item><item><title>Docker基础</title><link>https://D1ngyx.github.io/posts/my-first-post/</link><pubDate>Sun, 17 Aug 2025 09:52:15 +0800</pubDate><guid>https://D1ngyx.github.io/posts/my-first-post/</guid><description>&lt;h2 id="1-查看-image">1. 查看 image&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>16:28:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker images
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>REPOSITORY TAG IMAGE ID CREATED SIZE
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ubuntu focal-20250404 8feb4d8ca535 &lt;span style="color:#bd93f9">3&lt;/span> months ago 101MB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ros noetic-perception-focal 32370c500818 &lt;span style="color:#bd93f9">4&lt;/span> years ago 4.89GB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>16:28:42&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.095s&lt;span style="color:#ff79c6">]&lt;/span> docker images
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="标题三">标题三&lt;/h3>
-&lt;p>&lt;code>hello&lt;/code> you&lt;/p>
-&lt;h4 id="标题四">标题四&lt;/h4>
-&lt;blockquote>
-&lt;p>标题四段落&lt;/p>&lt;/blockquote>
-&lt;h2 id="2-创建-container">2. 创建 container&lt;/h2>
-&lt;p>💡解释：使用镜像 TAG &lt;code>focal-20250404&lt;/code> 创建一个名为 &lt;code>ubuntu20&lt;/code> 的container，并且通过 -v 命令把宿主机 &lt;code>/Users/dingyx&lt;/code> 目录下的所有文件，挂载到虚拟机 &lt;code>/home/dingyx&lt;/code> 的目录下。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:20:39&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker create -v /Users/dingyx/dockerSpace:/mnt -it --name ubuntu20 ubuntu:focal-20250404
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240db92673accd73175f58d0348aed85288d1b0a26f445cda367e747
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:25:45&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.947s&lt;span style="color:#ff79c6">]&lt;/span> docker create -v /Users/dingyx:/home/dingyx -it --name ubuntu20 ubuntu:focal-20250404
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="3-查看-container">3. 查看 container&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>17:29:25&lt;span style="color:#ff79c6">]&lt;/span> dingyx &lt;span style="color:#ff79c6">(&lt;/span>base&lt;span style="color:#ff79c6">)&lt;/span> ~
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ docker ps -a
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>40dbe94b240d ubuntu:focal-20250404 &lt;span style="color:#f1fa8c">&amp;#34;/bin/bash&amp;#34;&lt;/span> &lt;span style="color:#bd93f9">3&lt;/span> minutes ago Created ubuntu20
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff79c6">[&lt;/span>17:29:27&lt;span style="color:#ff79c6">]&lt;/span> &lt;span style="color:#ff79c6">[&lt;/span>cost 0.097s&lt;span style="color:#ff79c6">]&lt;/span> docker ps -a
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="4-启动-container">4. 启动 container&lt;/h2>
-&lt;p>💡解释：根据查看 container 中的 NAMES 列，启动名为 NAMES 的一个镜像&lt;/p></description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;/br>&lt;/br>&lt;/br>&lt;/p></description></item></channel></rss>
