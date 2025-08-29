@@ -4,7 +4,9 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>du&lt;/code>: disk usage, 查看磁盘使用量的&lt;/p>
 &lt;p>&lt;code>-h&lt;/code>: human-readable, 转成人类可以理解的K、M、G这种单位&lt;/p>
 &lt;p>&lt;code>--max-depth=1&lt;/code>: du 命令遍历目录的深度，0 表示只查看当前目录的容量，1 表示查看当前目录下一层目录的使用量，和tree -L 1 那个意思是一样的&lt;/p>
-&lt;p>&lt;code>.&lt;/code>：查看当前目录，当然也可以指定其他目录&lt;/p></description></item><item><title>[C++] [ROS] CPP基础开发环境配置</title><link>https://D1ngyx.github.io/posts/cpp_dev_env/</link><pubDate>Wed, 27 Aug 2025 08:19:56 +0800</pubDate><guid>https://D1ngyx.github.io/posts/cpp_dev_env/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 这里的 CPP 开发环境，指的是为文本编辑器配置特定语言的补全以及诊断功能。显示的配置方式有很多，这里只展示本人在&lt;strong>工作中&lt;/strong>经常用到的一种。经实测，适用于常规 &lt;strong>CPP&lt;/strong> 项目开发，或者 &lt;strong>ROS&lt;/strong> 中的 CPP 项目开发。
+&lt;p>&lt;code>.&lt;/code>：查看当前目录，当然也可以指定其他目录&lt;/p>
+&lt;p>&lt;code>sort -hr&lt;/code>：按照前面 -h 到排序，reverse 逆序排序&lt;/p>
+&lt;p>&lt;code>head -n 5&lt;/code>：只输出前 5 项到终端&lt;/p></description></item><item><title>[C++] [ROS] CPP基础开发环境配置</title><link>https://D1ngyx.github.io/posts/cpp_dev_env/</link><pubDate>Wed, 27 Aug 2025 08:19:56 +0800</pubDate><guid>https://D1ngyx.github.io/posts/cpp_dev_env/</guid><description>&lt;p>&lt;strong>摘要：&lt;/strong> 这里的 CPP 开发环境，指的是为文本编辑器配置特定语言的补全以及诊断功能。显示的配置方式有很多，这里只展示本人在&lt;strong>工作中&lt;/strong>经常用到的一种。经实测，适用于常规 &lt;strong>CPP&lt;/strong> 项目开发，或者 &lt;strong>ROS&lt;/strong> 中的 CPP 项目开发。
 &lt;/br>&lt;/br>&lt;/p>
 &lt;h2 id="1-提供语言服务">1. 提供语言服务&lt;/h2>
 &lt;h3 id="11--基本逻辑">1.1 基本逻辑&lt;/h3>
