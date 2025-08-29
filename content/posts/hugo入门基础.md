@@ -1,6 +1,6 @@
 +++
 date = '2025-08-24T13:16:15+08:00'
-title = 'Hugo入门'
+title = '[Hugo] Hugo入门'
 toc = true  # 启用目录
 +++
 

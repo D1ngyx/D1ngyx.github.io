@@ -1,6 +1,6 @@
 +++
 date = '1999-10-09T15:00:00+08:00'
-title = '个人Neovim和Tmux配置'
+title = '[Linux] 个人Neovim和Tmux配置'
 toc = true  # 启用目录
 +++
 **摘要：** 个人工作中用的 Neovim 和 Tmux 配置。备忘用，供参考。如果您使用这些工具，应该定义自己舒服的工作流，而不是照搬网上的配置，否则Vscode确实已经足够强大 :)
