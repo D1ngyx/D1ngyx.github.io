@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>[ACM] 网瘾比赛常见模版 | My New Hugo Site</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  
+  <header class="topbar">
+    <nav>
+      <ul class="menu">
+        <li class="menu-left">
+          <button id="toggleSidebar">DirNav 🗺️</button>
+        </li>
+        
+        <li><a href="/">Home 🏠</a></li>
+        
+        <li><a href="/posts/">Posts 📚</a></li>
+        
+        <li><a href="/tags/">Tags 🏷️</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    
+    <aside class="sidebar hidden" id="sidebar">
+      <div class="resizer" id="resizer"></div>
+
+      <div class="toc">
+        <h3>Directory</h3>
+        <ul>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-基础">1. 基础</a>
+      <ul>
+        <li><a href="#11-前n项和">1.1 前n项和</a></li>
+        <li><a href="#12-向上取整">1.2 向上取整</a></li>
+        <li><a href="#13-快速幂">1.3 快速幂</a></li>
+        <li><a href="#14-判质数">1.4 判质数</a></li>
+        <li><a href="#15-lcm">1.5 LCM</a></li>
+        <li><a href="#16-质因数分解">1.6 质因数分解</a></li>
+        <li><a href="#17-递归">1.7 递归</a></li>
+        <li><a href="#18-双指针">1.8 双指针</a></li>
+        <li><a href="#19-二分">1.9 二分</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-数据结构">2. 数据结构</a>
+      <ul>
+        <li><a href="#21-四个方向">2.1 四个方向</a></li>
+        <li><a href="#22-并查集">2.2 并查集</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-图论">3. 图论</a></li>
+    <li><a href="#4-输入输出">4. 输入输出</a>
+      <ul>
+        <li><a href="#41-小数点位数">4.1 小数点位数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </ul>
+      </div>
+    </aside>
+
+    
+    <main class="content">
+      
+  <article>
+    <h1>[ACM] 网瘾比赛常见模版</h1>
+    <h2 id="1-基础">1. 基础</h2>
+<h3 id="11-前n项和">1.1 前n项和</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// a1 * n + n * (n-1) / 2 * d
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">template</span> <span style="color:#ff79c6">&lt;</span><span style="color:#ff79c6">typename</span> T<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>T sn(T a1, T n, T d) {
+</span></span><span style="display:flex;"><span>    T an <span style="color:#ff79c6">=</span> a1 <span style="color:#ff79c6">+</span> (n <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">*</span> d;
+</span></span><span style="display:flex;"><span>    T ret <span style="color:#ff79c6">=</span> (a1 <span style="color:#ff79c6">+</span> an) <span style="color:#ff79c6">*</span> n <span style="color:#ff79c6">/</span> <span style="color:#bd93f9">2</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> ret;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="12-向上取整">1.2 向上取整</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// x 除 y 向上取整
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">template</span><span style="color:#ff79c6">&lt;</span><span style="color:#ff79c6">typename</span> T<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>T div_up(T x, T y) {<span style="color:#ff79c6">return</span> (x<span style="color:#ff79c6">+</span>y<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>)<span style="color:#ff79c6">/</span>y;}
+</span></span></code></pre></div><h3 id="13-快速幂">1.3 快速幂</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// a 的 b 次方，对 p 取模
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>i64 <span style="color:#50fa7b">qpow</span>(i64 _a, i64 _b, i64 _p) {i64 _ret <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">%</span> _p, _t <span style="color:#ff79c6">=</span> _a; <span style="color:#ff79c6">while</span> (_b) {<span style="color:#ff79c6">if</span> (_b<span style="color:#ff79c6">&amp;</span><span style="color:#bd93f9">1</span>) _ret <span style="color:#ff79c6">=</span> _ret <span style="color:#ff79c6">*</span> _t <span style="color:#ff79c6">%</span> _p; _t <span style="color:#ff79c6">=</span> _t <span style="color:#ff79c6">*</span> _t <span style="color:#ff79c6">%</span> _p; _b <span style="color:#ff79c6">&gt;&gt;=</span> <span style="color:#bd93f9">1</span>;} <span style="color:#ff79c6">return</span> _ret;}
+</span></span></code></pre></div><h3 id="14-判质数">1.4 判质数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// 朴素判质数。当年线下面试吉比特就出的这题我草。
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">template</span><span style="color:#ff79c6">&lt;</span><span style="color:#ff79c6">typename</span> T<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">bool</span> Is_prime(T x) {<span style="color:#ff79c6">if</span> (x <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">2</span>) <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">false</span>; <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>; i <span style="color:#ff79c6">&lt;=</span> x <span style="color:#ff79c6">/</span> i; i <span style="color:#ff79c6">++</span> ) <span style="color:#ff79c6">if</span> (x <span style="color:#ff79c6">%</span> i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">false</span>; <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">true</span>;}
+</span></span></code></pre></div><p>线性筛质数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">/* 
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">    线性筛质数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">    比如 对于数字 n=10, 筛出来所有小于等于 n=10 的质数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">    primes 中存放所有质数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">    is_prime 用来筛掉合数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span><span style="display:flex;"><span>Vec<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span><span style="color:#ff79c6">&gt;</span> primes, is_prime;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">prime_sieve</span> (<span style="color:#8be9fd">int</span> n) {
+</span></span><span style="display:flex;"><span>    is_prime.resize(n<span style="color:#ff79c6">+</span><span style="color:#bd93f9">10</span>, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>; i <span style="color:#ff79c6">&lt;=</span> n; <span style="color:#ff79c6">++</span> i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (is_prime[i]) primes.push_back(i);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> (<span style="color:#ff79c6">auto</span> <span style="color:#ff79c6">&amp;</span><span style="color:#8be9fd;font-style:italic">p</span> : primes) {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (p <span style="color:#ff79c6">&gt;</span> n<span style="color:#ff79c6">/</span>i) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>                is_prime[p <span style="color:#ff79c6">*</span> i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> (i <span style="color:#ff79c6">%</span> p <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="15-lcm">1.5 LCM</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// 最小公倍数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">template</span><span style="color:#ff79c6">&lt;</span><span style="color:#ff79c6">typename</span> T<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>T Lcm(T a, T b) {<span style="color:#ff79c6">return</span> a <span style="color:#ff79c6">/</span> std<span style="color:#ff79c6">::</span>__gcd(a, b) <span style="color:#ff79c6">*</span> b;}
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// res = lcm(a, b);
+</span></span></span></code></pre></div><h3 id="16-质因数分解">1.6 质因数分解</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">/*  例如 6 被分解输出
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">        2 1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">        3 1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">    8 被分解输出
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">        2 3
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">auto</span> Divide <span style="color:#ff79c6">=</span> [<span style="color:#ff79c6">&amp;</span>] (<span style="color:#8be9fd">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>; i <span style="color:#ff79c6">&lt;=</span> x <span style="color:#ff79c6">/</span> i; i <span style="color:#ff79c6">++</span> )
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (x <span style="color:#ff79c6">%</span> i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd">int</span> s <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">while</span> (x <span style="color:#ff79c6">%</span> i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) x <span style="color:#ff79c6">/=</span> i, s <span style="color:#ff79c6">++</span> ;
+</span></span><span style="display:flex;"><span>            std<span style="color:#ff79c6">::</span>cout <span style="color:#ff79c6">&lt;&lt;</span> i <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#f1fa8c">&#39; &#39;</span> <span style="color:#ff79c6">&lt;&lt;</span> s <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (x <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span>) std<span style="color:#ff79c6">::</span>cout <span style="color:#ff79c6">&lt;&lt;</span> x <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#f1fa8c">&#39; &#39;</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="17-递归">1.7 递归</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#ff79c6">auto</span> dfs <span style="color:#ff79c6">=</span> [<span style="color:#ff79c6">&amp;</span>] (<span style="color:#ff79c6">auto</span><span style="color:#ff79c6">&amp;&amp;</span> dfs, ...) {
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// dfs(dfs, ...);
+</span></span></span></code></pre></div><h3 id="18-双指针">1.8 双指针</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// 字符串 S 的总长度为 N
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">// 找重复元素的最大连续长度
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">for</span> (i32 i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>, j <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> N; ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> (j <span style="color:#ff79c6">&lt;</span> N <span style="color:#ff79c6">&amp;&amp;</span> S[j] <span style="color:#ff79c6">==</span> S[i]) <span style="color:#ff79c6">++</span> j; 
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// 每次做完 while，S[i]到S[j-1] 就是一段连续相同子数组 
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// 即 len = j - i;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// logic here
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    i <span style="color:#ff79c6">=</span> j;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// https://atcoder.jp/contests/abc329/tasks/abc329_c
+</span></span></span></code></pre></div><h3 id="19-二分">1.9 二分</h3>
+<img src="/images/binary_search.png" alt="bin search" style="zoom:50%;" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">bfind</span>(<span style="color:#8be9fd">int</span> l, <span style="color:#8be9fd">int</span> r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> (l <span style="color:#ff79c6">&lt;</span> r) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">int</span> mid <span style="color:#ff79c6">=</span> l<span style="color:#ff79c6">+</span>r<span style="color:#ff79c6">&gt;&gt;</span><span style="color:#bd93f9">1</span> 或者 l<span style="color:#ff79c6">+</span>r<span style="color:#ff79c6">+</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">&gt;&gt;</span><span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (check(mid) <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">true</span>) r<span style="color:#ff79c6">=</span>mid 或者 l<span style="color:#ff79c6">=</span>mid
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">else</span> 让两个指针交叉，即r在左边l在右边。例如上面是l<span style="color:#ff79c6">=</span>mid，那这里必然是r<span style="color:#ff79c6">=</span>mid<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> l; <span style="color:#6272a4">// 此必定有 l==r
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>}
+</span></span></code></pre></div><p>需要注意，这个模版是针对 x 轴是正整数的，而且一定是假设 x 轴是按照 1,2,3,&hellip; 这样分布的
+可能有点抽象不太好说，参考下图</p>
+<img src="/images/wired_bin_search.png" alt="wired bin search" style="zoom:50%;" />
+<p>或者来两道题感受一下
+<a href="https://atcoder.jp/contests/abc161/tasks/abc161_d">https://atcoder.jp/contests/abc161/tasks/abc161_d</a>
+<a href="https://atcoder.jp/contests/abc155/tasks/abc155_d">https://atcoder.jp/contests/abc155/tasks/abc155_d</a></p>
+<h2 id="2-数据结构">2. 数据结构</h2>
+<h3 id="21-四个方向">2.1 四个方向</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#ff79c6">constexpr</span> i32 dx[<span style="color:#bd93f9">4</span>] <span style="color:#ff79c6">=</span> {<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>}, dy[<span style="color:#bd93f9">4</span>] <span style="color:#ff79c6">=</span> {<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>}; <span style="color:#6272a4">// RDLU
+</span></span></span></code></pre></div><h3 id="22-并查集">2.2 并查集</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> * 初始化              Dsu dsu(N)     其中N是结点个数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> * 合并x和y            dsu.unite(x, y)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> * 找x的根节点          dsu.find(x)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> * 判断x和y是否联通      dsu.same(x, y)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Dsu</span> {
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">private</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span><span style="color:#ff79c6">&gt;</span> root_of_;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">public</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>    Dsu(<span style="color:#8be9fd">int</span> size) {
+</span></span><span style="display:flex;"><span>        root_of_.resize(size);
+</span></span><span style="display:flex;"><span>        std<span style="color:#ff79c6">::</span>iota(root_of_.begin(), root_of_.end(), <span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">find</span>(<span style="color:#8be9fd">int</span> x) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (root_of_[x] <span style="color:#ff79c6">!=</span> x) {
+</span></span><span style="display:flex;"><span>            root_of_[x] <span style="color:#ff79c6">=</span> find(root_of_[x]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> root_of_[x];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">unite</span>(<span style="color:#8be9fd">int</span> x, <span style="color:#8be9fd">int</span> y) {
+</span></span><span style="display:flex;"><span>        root_of_[find(x)] <span style="color:#ff79c6">=</span> find(y);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">bool</span> <span style="color:#50fa7b">same</span>(<span style="color:#8be9fd">int</span> x, <span style="color:#8be9fd">int</span> y) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> find(x) <span style="color:#ff79c6">==</span> find(y);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="3-图论">3. 图论</h2>
+<h2 id="4-输入输出">4. 输入输出</h2>
+<h3 id="41-小数点位数">4.1 小数点位数</h3>
+<p>只有沟槽的牛客喜欢出这种题。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// 格式化输出 cout 后面固定 n 位数, 在主函数调用一次即可
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">cout_percision</span>(<span style="color:#8be9fd">int</span> n) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#ff79c6">::</span>cout.setf(std<span style="color:#ff79c6">::</span>ios<span style="color:#ff79c6">::</span>fixed);
+</span></span><span style="display:flex;"><span>    std<span style="color:#ff79c6">::</span>cout.precision(n);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+  </article>
+
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>

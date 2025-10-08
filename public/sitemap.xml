@@ -23,6 +23,9 @@
     <loc>http://localhost:1313/posts/personal_dev_tool_config/</loc>
     <lastmod>1999-10-09T15:00:00+08:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/posts/acm/</loc>
+    <lastmod>1999-10-09T15:00:00+09:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
