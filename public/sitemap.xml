@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/common_linux/</loc>
-    <lastmod>2025-08-29T08:05:44+08:00</lastmod>
+    <loc>http://localhost:1313/posts/x-anylabeling_custom_model/</loc>
+    <lastmod>2025-11-26T09:14:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-08-29T08:05:44+08:00</lastmod>
+    <lastmod>2025-11-26T09:14:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-11-26T09:14:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/common_linux/</loc>
     <lastmod>2025-08-29T08:05:44+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/cpp_dev_env/</loc>

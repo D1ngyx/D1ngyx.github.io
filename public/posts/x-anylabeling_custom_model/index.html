@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>[CV] X-AnyLabeling配置YOLO模型（含大量白底图片，当心眼睛！） | My New Hugo Site</title>
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  
+  <header class="topbar">
+    <nav>
+      <ul class="menu">
+        <li class="menu-left">
+          <button id="toggleSidebar">DirNav 🗺️</button>
+        </li>
+        
+        <li><a href="/">Home 🏠</a></li>
+        
+        <li><a href="/posts/">Posts 📚</a></li>
+        
+        <li><a href="/tags/">Tags 🏷️</a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    
+    <aside class="sidebar hidden" id="sidebar">
+      <div class="resizer" id="resizer"></div>
+
+      <div class="toc">
+        <h3>Directory</h3>
+        <ul>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-确认基础模型类型">1. 确认基础模型类型</a></li>
+    <li><a href="#2-自定义yaml文件">2. 自定义yaml文件</a></li>
+    <li><a href="#3-在-x-anylabeling-中配置">3. 在 X-AnyLabeling 中配置</a></li>
+  </ul>
+</nav>
+        </ul>
+      </div>
+    </aside>
+
+    
+    <main class="content">
+      
+  <article>
+    <h1>[CV] X-AnyLabeling配置YOLO模型（含大量白底图片，当心眼睛！）</h1>
+    <p><strong>摘要</strong>: 例如，在 yolov8n 目标检测模型的基础上，使用 BDD100K 数据集训练了一个新的模型，那么如何在 X-AnyLabeling 上使用这个新训练出来的模型来进行自动化标注。</p>
+<h2 id="1-确认基础模型类型">1. 确认基础模型类型</h2>
+<p>打开官方提供的 model zoo（<a href="https://github.com/CVHub520/X-AnyLabeling/blob/main/docs/en/model_zoo.md">X-AnyLabeling/docs/en/model_zoo.md at main · CVHub520/X-AnyLabeling · GitHub</a>），找到目标检测标题下，对应的模型。</p>
+<img src="/images/x-anylabeling_custom_model/1.png" alt="model_zoo" width="80%">
+<h2 id="2-自定义yaml文件">2. 自定义yaml文件</h2>
+<img src="/images/x-anylabeling_custom_model/2.png" alt="important param" width="80%">
+<p>点进去看他具体的配置，可以直接把所有内容复制出来，核心配置项是3个：</p>
+<ul>
+<li>
+<p>type: yolov8</p>
+</li>
+<li>
+<p>name: yolov8n-r20230520</p>
+</li>
+<li>
+<p>model_path: &hellip;.</p>
+</li>
+</ul>
+<p>前 2 项必须<font color="red"><strong>原封不动</strong></font>地复制到我们自己的配置文件中。<code>model_path</code> 则是选择自己onnx模型的路径就行。</p>
+<p>以我本地的一个例子为例，<code>yolowithbdd.yaml</code>配置文件应该长这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">type</span>: yolov8
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">name</span>: yolov8n-r20230520
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">display_name</span>: bdd-ep100-res640
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">provider</span>: dingyx
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">conf_threshold</span>: <span style="color:#bd93f9">0.3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">model_path</span>: /home/kinglong/Workspace/auto-anno/bdd_yolo8n_640_ep100_best.onnx
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">classes</span>:
+</span></span><span style="display:flex;"><span>  - car
+</span></span><span style="display:flex;"><span>  - bus
+</span></span><span style="display:flex;"><span>  - person
+</span></span><span style="display:flex;"><span>  - bike
+</span></span><span style="display:flex;"><span>  - truck
+</span></span><span style="display:flex;"><span>  - motor
+</span></span><span style="display:flex;"><span>  - train
+</span></span><span style="display:flex;"><span>  - rider
+</span></span><span style="display:flex;"><span>  - traffic sign
+</span></span><span style="display:flex;"><span>  - traffic light
+</span></span></code></pre></div><p>其中：</p>
+<ul>
+<li>
+<p><code>type</code>: 必须照抄官方配置;</p>
+</li>
+<li>
+<p><code>name</code>: 必须照抄官方配置;</p>
+</li>
+<li>
+<p><code>display_name</code>: 在 X-AnyLabeling 中显示的名称;</p>
+</li>
+<li>
+<p><code>provider</code>: 没什么用;</p>
+</li>
+<li>
+<p><code>conf_threshold</code>、<code>iou_threshold</code>: 置信区间类的参数，这里配置的数值其实也没什么用，因为可以在软件中进一步配置;</p>
+</li>
+<li>
+<p><code>model_path</code>: 模型的本地路径;</p>
+</li>
+<li>
+<p><code>classes</code>: 类别标签，和训练时的类别标签一致即可。</p>
+</li>
+</ul>
+<h2 id="3-在-x-anylabeling-中配置">3. 在 X-AnyLabeling 中配置</h2>
+<img src="/images/x-anylabeling_custom_model/3.png" alt="important param" width="80%">
+<img src="/images/x-anylabeling_custom_model/4.png" alt="important param" width="80%">
+<img src="/images/x-anylabeling_custom_model/5.png" alt="important param" width="80%">
+<p>选择在 2 中配置好的 <code>yolowithbdd.yaml</code> 文件，然后这个模型就出现了</p>
+<img src="/images/x-anylabeling_custom_model/6.png" alt="important param" width="80%">
+<img src="/images/x-anylabeling_custom_model/7.png" alt="important param" width="80%">
+
+  </article>
+
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>

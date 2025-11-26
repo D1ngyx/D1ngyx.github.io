@@ -47,18 +47,18 @@
         <li><a href="#17-递归">1.7 递归</a></li>
         <li><a href="#18-双指针">1.8 双指针</a></li>
         <li><a href="#19-二分">1.9 二分</a></li>
+        <li><a href="#110-堆">1.10 堆</a></li>
       </ul>
     </li>
-    <li><a href="#2-数据结构">2. 数据结构</a>
+    <li><a href="#2-图论">2. 图论</a>
       <ul>
         <li><a href="#21-四个方向">2.1 四个方向</a></li>
         <li><a href="#22-并查集">2.2 并查集</a></li>
       </ul>
     </li>
-    <li><a href="#3-图论">3. 图论</a></li>
-    <li><a href="#4-输入输出">4. 输入输出</a>
+    <li><a href="#3-输入输出">3. 输入输出</a>
       <ul>
-        <li><a href="#41-小数点位数">4.1 小数点位数</a></li>
+        <li><a href="#31-小数点位数">3.1 小数点位数</a></li>
       </ul>
     </li>
   </ul>
@@ -166,7 +166,12 @@
 <p>或者来两道题感受一下
 <a href="https://atcoder.jp/contests/abc161/tasks/abc161_d">https://atcoder.jp/contests/abc161/tasks/abc161_d</a>
 <a href="https://atcoder.jp/contests/abc155/tasks/abc155_d">https://atcoder.jp/contests/abc155/tasks/abc155_d</a></p>
-<h2 id="2-数据结构">2. 数据结构</h2>
+<h3 id="110-堆">1.10 堆</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">//大根堆，pop出来的是最大的数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>priority_queue<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span><span style="color:#ff79c6">&gt;</span> pq;
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// 小根堆，pop出来的是最小的数
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>priority_queue<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span>, vector<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span><span style="color:#ff79c6">&gt;</span>, greater<span style="color:#ff79c6">&lt;</span><span style="color:#8be9fd">int</span><span style="color:#ff79c6">&gt;</span> <span style="color:#ff79c6">&gt;</span> pq;
+</span></span></code></pre></div><h2 id="2-图论">2. 图论</h2>
 <h3 id="21-四个方向">2.1 四个方向</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#ff79c6">constexpr</span> i32 dx[<span style="color:#bd93f9">4</span>] <span style="color:#ff79c6">=</span> {<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>}, dy[<span style="color:#bd93f9">4</span>] <span style="color:#ff79c6">=</span> {<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>, <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">0</span>}; <span style="color:#6272a4">// RDLU
 </span></span></span></code></pre></div><h3 id="22-并查集">2.2 并查集</h3>
@@ -197,9 +202,8 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> find(x) <span style="color:#ff79c6">==</span> find(y);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h2 id="3-图论">3. 图论</h2>
-<h2 id="4-输入输出">4. 输入输出</h2>
-<h3 id="41-小数点位数">4.1 小数点位数</h3>
+</span></span></code></pre></div><h2 id="3-输入输出">3. 输入输出</h2>
+<h3 id="31-小数点位数">3.1 小数点位数</h3>
 <p>只有沟槽的牛客喜欢出这种题。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#6272a4">// 格式化输出 cout 后面固定 n 位数, 在主函数调用一次即可
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">cout_percision</span>(<span style="color:#8be9fd">int</span> n) {

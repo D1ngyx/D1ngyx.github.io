@@ -51,141 +51,113 @@
     <h1>[Linux] 个人Neovim和Tmux配置</h1>
     <p><strong>摘要：</strong> 个人工作中用的 Neovim 和 Tmux 配置。备忘用，供参考。如果您使用这些工具，应该定义自己舒服的工作流，而不是照搬网上的配置，否则Vscode确实已经足够强大 :)</p>
 <h2 id="neovim">Neovim</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Global Definition</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#6272a4">-- #####################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ##  ~/.config/nvim/init.lua                        ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ##  Minimal Require: Neovim 0.7.0 (gclib &gt;= 2.27)  ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ##  Last Update: 2025.11.21                        ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ##  By: dingyx109@gmail.com                        ##</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- #####################################################</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> vk <span style="color:#ff79c6">=</span> vim.keymap
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> vo <span style="color:#ff79c6">=</span> vim.opt
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> TABSPACE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">4</span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> KEEPLINE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Global Definition  一些基本的全局定义</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> NUMBER_OF_TABSPACE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> NUMBER_OF_KEEPLINES <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> LEFT_BAR_SIZE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">24</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> NETRW_LISTSTYLE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> NETRW_BANNER_DISABLE <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
 </span></span><span style="display:flex;"><span>vim.g.mapleader <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34; &#34;</span>
 </span></span><span style="display:flex;"><span>vim.g.maplocalleader <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">&#34;</span>
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;i&#34;</span>, <span style="color:#f1fa8c">&#34;jk&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;ESC&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;s&#34;</span>, <span style="color:#f1fa8c">&#34;:w&lt;CR&gt;&#34;</span>, {remap<span style="color:#ff79c6">=</span><span style="color:#ff79c6">true</span>})
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;ff&#34;</span>, <span style="color:#f1fa8c">&#34;:find &#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Find file&#34;</span> })
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Dyx really need this</span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;i&#34;</span>, <span style="color:#f1fa8c">&#34;jk&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;ESC&gt;&#34;</span>)
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;s&#34;</span>, <span style="color:#f1fa8c">&#34;:w&lt;CR&gt;&#34;</span>, {remap<span style="color:#ff79c6">=</span><span style="color:#ff79c6">true</span>})
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Color Scheme Fix  对配色做一些自定义修正</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.o.background = &#34;dark&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.cmd(&#34;colorscheme default&#34;)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Basic settings</span>
-</span></span><span style="display:flex;"><span>vo.number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                  <span style="color:#6272a4">-- Line numbers</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.opt.relativenumber = true          -- Relative line numbers</span>
-</span></span><span style="display:flex;"><span>vo.cursorline <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>              <span style="color:#6272a4">-- Highlight current line</span>
-</span></span><span style="display:flex;"><span>vo.wrap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                   <span style="color:#6272a4">-- Don&#39;t wrap lines</span>
-</span></span><span style="display:flex;"><span>vo.scrolloff <span style="color:#ff79c6">=</span> KEEPLINE           <span style="color:#6272a4">-- Keep 10 lines above/below cursor </span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vo.sidescrolloff = 8              -- Keep 8 columns left/right of cursor</span>
+</span></span><span style="display:flex;"><span>vim.o.background <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;light&#34;</span>
+</span></span><span style="display:flex;"><span>vim.cmd(<span style="color:#f1fa8c">&#34;colorscheme quiet&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Indentation</span>
-</span></span><span style="display:flex;"><span>vo.tabstop <span style="color:#ff79c6">=</span> TABSPACE             <span style="color:#6272a4">-- Tab width</span>
-</span></span><span style="display:flex;"><span>vo.shiftwidth <span style="color:#ff79c6">=</span> TABSPACE          <span style="color:#6272a4">-- Indent width</span>
-</span></span><span style="display:flex;"><span>vo.softtabstop <span style="color:#ff79c6">=</span> TABSPACE         <span style="color:#6272a4">-- Soft tab stop</span>
-</span></span><span style="display:flex;"><span>vo.expandtab <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Use spaces instead of tabs</span>
-</span></span><span style="display:flex;"><span>vo.smartindent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>             <span style="color:#6272a4">-- Smart auto-indenting</span>
-</span></span><span style="display:flex;"><span>vo.autoindent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>              <span style="color:#6272a4">-- Copy indent from current line</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Search settings</span>
-</span></span><span style="display:flex;"><span>vo.ignorecase <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>              <span style="color:#6272a4">-- Case insensitive search</span>
-</span></span><span style="display:flex;"><span>vo.smartcase <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Case sensitive if uppercase in search</span>
-</span></span><span style="display:flex;"><span>vo.hlsearch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>               <span style="color:#6272a4">-- Don&#39;t highlight search results </span>
-</span></span><span style="display:flex;"><span>vo.incsearch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Show matches as you type</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Visual settings</span>
-</span></span><span style="display:flex;"><span>vim.opt.termguicolors <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                       <span style="color:#6272a4">-- Enable 24-bit colors</span>
-</span></span><span style="display:flex;"><span>vim.opt.signcolumn <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;yes&#34;</span>                         <span style="color:#6272a4">-- Always show sign column</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.opt.colorcolumn = &#34;100&#34;                        -- Show column at 100 characters</span>
-</span></span><span style="display:flex;"><span>vim.opt.showmatch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                           <span style="color:#6272a4">-- Highlight matching brackets</span>
-</span></span><span style="display:flex;"><span>vim.opt.matchtime <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>                              <span style="color:#6272a4">-- How long to show matching bracket</span>
-</span></span><span style="display:flex;"><span>vim.opt.cmdheight <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>                              <span style="color:#6272a4">-- Command line height</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.opt.showmode = false                           -- Don&#39;t show mode in command line </span>
-</span></span><span style="display:flex;"><span>vim.opt.pumheight <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>                             <span style="color:#6272a4">-- Popup menu height </span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.opt.pumblend = 10                              -- Popup menu transparency </span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vim.opt.winblend = 0                               -- Floating window transparency </span>
-</span></span><span style="display:flex;"><span>vim.opt.conceallevel <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>                           <span style="color:#6272a4">-- Don&#39;t hide markup </span>
-</span></span><span style="display:flex;"><span>vim.opt.concealcursor <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>                         <span style="color:#6272a4">-- Don&#39;t hide cursor line markup </span>
-</span></span><span style="display:flex;"><span>vim.opt.lazyredraw <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                          <span style="color:#6272a4">-- Don&#39;t redraw during macros</span>
-</span></span><span style="display:flex;"><span>vim.opt.synmaxcol <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">300</span>                            <span style="color:#6272a4">-- Syntax highlighting limit</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- File handling</span>
-</span></span><span style="display:flex;"><span>vo.backup <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                             <span style="color:#6272a4">-- Don&#39;t create backup files</span>
-</span></span><span style="display:flex;"><span>vo.writebackup <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                        <span style="color:#6272a4">-- Don&#39;t create backup before writing</span>
-</span></span><span style="display:flex;"><span>vo.swapfile <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                           <span style="color:#6272a4">-- Don&#39;t create swap files</span>
-</span></span><span style="display:flex;"><span>vo.undofile <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                            <span style="color:#6272a4">-- Persistent undo</span>
-</span></span><span style="display:flex;"><span>vo.undodir <span style="color:#ff79c6">=</span> vim.fn.expand(<span style="color:#f1fa8c">&#34;~/.vim/undodir&#34;</span>)  <span style="color:#6272a4">-- Undo directory</span>
-</span></span><span style="display:flex;"><span>vo.updatetime <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">250</span>                           <span style="color:#6272a4">-- Faster completion</span>
-</span></span><span style="display:flex;"><span>vo.timeoutlen <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">500</span>                           <span style="color:#6272a4">-- Key timeout duration</span>
-</span></span><span style="display:flex;"><span>vo.ttimeoutlen <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>                            <span style="color:#6272a4">-- Key code timeout</span>
-</span></span><span style="display:flex;"><span>vo.autoread <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                            <span style="color:#6272a4">-- Auto reload files changed outside vim</span>
-</span></span><span style="display:flex;"><span>vo.autowrite <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                          <span style="color:#6272a4">-- Don&#39;t auto save</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Behavior settings</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vo.hidden = true                          -- Allow hidden buffers</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vo.modifiable = true                      -- Allow buffer modifications</span>
-</span></span><span style="display:flex;"><span>vo.errorbells <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                     <span style="color:#6272a4">-- No error bells</span>
-</span></span><span style="display:flex;"><span>vo.visualbell <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                      <span style="color:#6272a4">-- Use visual bell </span>
-</span></span><span style="display:flex;"><span>vo.backspace <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;indent,eol,start&#34;</span>         <span style="color:#6272a4">-- Better backspace behavior</span>
-</span></span><span style="display:flex;"><span>vo.autochdir <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                      <span style="color:#6272a4">-- Don&#39;t auto change directory</span>
-</span></span><span style="display:flex;"><span>vo.iskeyword:append(<span style="color:#f1fa8c">&#34;-&#34;</span>)                  <span style="color:#6272a4">-- Treat dash as part of word</span>
-</span></span><span style="display:flex;"><span>vo.path:append(<span style="color:#f1fa8c">&#34;**&#34;</span>)                      <span style="color:#6272a4">-- include subdirectories in search</span>
-</span></span><span style="display:flex;"><span>vo.selection <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;exclusive&#34;</span>                <span style="color:#6272a4">-- Selection behavior</span>
-</span></span><span style="display:flex;"><span>vo.mouse <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;a&#34;</span>                            <span style="color:#6272a4">-- Enable mouse support</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- 开启基于osc52的剪贴板 --</span>
-</span></span><span style="display:flex;"><span>vim.g.clipboard <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;osc52&#39;</span>
-</span></span><span style="display:flex;"><span>vo.clipboard:append(<span style="color:#f1fa8c">&#34;unnamedplus&#34;</span>)     
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- 开启基于osc52的剪贴板 --</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vo.encoding <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;UTF-8&#34;</span>                     <span style="color:#6272a4">-- Set encoding</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Split behavior</span>
-</span></span><span style="display:flex;"><span>vo.splitbelow <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>      <span style="color:#6272a4">-- Horizontal splits go below</span>
-</span></span><span style="display:flex;"><span>vo.splitright <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>      <span style="color:#6272a4">-- Vertical splits go right</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vk.set(&#34;x&#34;, &#34;&lt;leader&gt;p&#34;, &#39;&#34;_dP&#39;, { desc = &#34;Paste without yanking&#34; })</span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;v&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;d&#34;</span>, <span style="color:#f1fa8c">&#39;&#34;_d&#39;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Delete without yanking&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;e&#34;</span>, <span style="color:#f1fa8c">&#34;:Explore&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Open file explorer&#34;</span> }) 
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;ff&#34;</span>, <span style="color:#f1fa8c">&#34;:find &#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Find file&#34;</span> })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;bn&#34;</span>, <span style="color:#f1fa8c">&#34;:bnext&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Next buffer&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;bp&#34;</span>, <span style="color:#f1fa8c">&#34;:bprevious&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Previous buffer&#34;</span> })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Better window navigation</span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;leader&gt;o&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-w&gt;w&#39;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;Cycle windows forward&#39;</span> })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Splitting &amp; Resizing</span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;hl&#34;</span>, <span style="color:#f1fa8c">&#34;:vsplit&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Split window vertically&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;jk&#34;</span>, <span style="color:#f1fa8c">&#34;:split&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Split window horizontally&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-k&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:resize +2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Increase window height&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-j&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:resize -2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Decrease window height&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-l&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:vertical resize -2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Decrease window width&#34;</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-h&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:vertical resize +2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Increase window width&#34;</span> })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- </span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;Tab&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;pumvisible() ? &#34;&lt;C-n&gt;&#34; : &#34;&lt;Tab&gt;&#34;&#39;</span>, { expr <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;S-Tab&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;pumvisible() ? &#34;&lt;C-p&gt;&#34; : &#34;&lt;S-Tab&gt;&#34;&#39;</span>, { expr <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
-</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;M-c&gt;p&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-x&gt;&lt;C-f&gt;&#39;</span>, { noremap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>, silent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
-</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;M-c&gt;b&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-x&gt;&lt;C-p&gt;&#39;</span>, { noremap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>, silent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
-</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;M-c&gt;l&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-x&gt;&lt;C-o&gt;&#39;</span>, { noremap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>, silent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vo.wildmenu <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>
-</span></span><span style="display:flex;"><span>vo.wildmode <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;longest:full,full&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Copy Full File-Path</span>
-</span></span><span style="display:flex;"><span>vk.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;pa&#34;</span>, <span style="color:#ff79c6">function</span>()
-</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">local</span> path <span style="color:#ff79c6">=</span> vim.fn.expand(<span style="color:#f1fa8c">&#34;%:p&#34;</span>)
-</span></span><span style="display:flex;"><span>	vim.fn.setreg(<span style="color:#f1fa8c">&#34;+&#34;</span>, path)
-</span></span><span style="display:flex;"><span>	print(<span style="color:#f1fa8c">&#34;file:&#34;</span>, path)
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Basic autocommands</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Display and Controll  基础的浏览和控制功能</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Basic Display  基础的显示、浏览功能</span>
+</span></span><span style="display:flex;"><span>vim.opt.number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                   <span style="color:#6272a4">-- Line numbers</span>
+</span></span><span style="display:flex;"><span>vim.opt.cursorline <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Highlight current line</span>
+</span></span><span style="display:flex;"><span>vim.opt.wrap <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                    <span style="color:#6272a4">-- Don&#39;t wrap lines</span>
+</span></span><span style="display:flex;"><span>vim.opt.scrolloff <span style="color:#ff79c6">=</span> NUMBER_OF_KEEPLINES <span style="color:#6272a4">-- Keep lines above/below cursor </span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Indentation  缩进相关</span>
+</span></span><span style="display:flex;"><span>vim.opt.tabstop <span style="color:#ff79c6">=</span> NUMBER_OF_TABSPACE             <span style="color:#6272a4">-- Tab width</span>
+</span></span><span style="display:flex;"><span>vim.opt.shiftwidth <span style="color:#ff79c6">=</span> NUMBER_OF_TABSPACE          <span style="color:#6272a4">-- Indent width</span>
+</span></span><span style="display:flex;"><span>vim.opt.softtabstop <span style="color:#ff79c6">=</span> NUMBER_OF_TABSPACE         <span style="color:#6272a4">-- Soft tab stop</span>
+</span></span><span style="display:flex;"><span>vim.opt.expandtab <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Use spaces instead of tabs</span>
+</span></span><span style="display:flex;"><span>vim.opt.smartindent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>             <span style="color:#6272a4">-- Smart auto-indenting</span>
+</span></span><span style="display:flex;"><span>vim.opt.autoindent <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>              <span style="color:#6272a4">-- Copy indent from current line</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Search settings  搜索设置</span>
+</span></span><span style="display:flex;"><span>vim.opt.ignorecase <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>              <span style="color:#6272a4">-- Case insensitive search</span>
+</span></span><span style="display:flex;"><span>vim.opt.smartcase <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Case sensitive if uppercase in search</span>
+</span></span><span style="display:flex;"><span>vim.opt.hlsearch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                <span style="color:#6272a4">-- Highlight search results </span>
+</span></span><span style="display:flex;"><span>vim.opt.incsearch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>               <span style="color:#6272a4">-- Show matches as you type</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Highlight yanked text  复制的时候高亮闪烁一下</span>
 </span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> augroup <span style="color:#ff79c6">=</span> vim.api.nvim_create_augroup(<span style="color:#f1fa8c">&#34;UserConfig&#34;</span>, {})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Highlight yanked text</span>
 </span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#34;TextYankPost&#34;</span>, {
 </span></span><span style="display:flex;"><span>  group <span style="color:#ff79c6">=</span> augroup,
 </span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>()
 </span></span><span style="display:flex;"><span>    vim.highlight.on_yank()
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>,
 </span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Visual settings</span>
+</span></span><span style="display:flex;"><span>vim.opt.termguicolors <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                       <span style="color:#6272a4">-- Enable 24-bit colors</span>
+</span></span><span style="display:flex;"><span>vim.opt.signcolumn <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;yes&#34;</span>                         <span style="color:#6272a4">-- Always show sign column</span>
+</span></span><span style="display:flex;"><span>vim.opt.cmdheight <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>                              <span style="color:#6272a4">-- Command line height</span>
+</span></span><span style="display:flex;"><span>vim.opt.pumheight <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">10</span>                             <span style="color:#6272a4">-- Popup menu height </span>
+</span></span><span style="display:flex;"><span>vim.opt.conceallevel <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>                           <span style="color:#6272a4">-- Don&#39;t hide markup </span>
+</span></span><span style="display:flex;"><span>vim.opt.concealcursor <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>                         <span style="color:#6272a4">-- Don&#39;t hide cursor line markup </span>
+</span></span><span style="display:flex;"><span>vim.opt.lazyredraw <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                          <span style="color:#6272a4">-- Don&#39;t redraw during macros</span>
+</span></span><span style="display:flex;"><span>vim.opt.synmaxcol <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">300</span>                            <span style="color:#6272a4">-- Syntax highlighting limit</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- File handling</span>
+</span></span><span style="display:flex;"><span>vim.opt.backup <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                             <span style="color:#6272a4">-- Don&#39;t create backup files</span>
+</span></span><span style="display:flex;"><span>vim.opt.writebackup <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                        <span style="color:#6272a4">-- Don&#39;t create backup before writing</span>
+</span></span><span style="display:flex;"><span>vim.opt.swapfile <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                           <span style="color:#6272a4">-- Don&#39;t create swap files</span>
+</span></span><span style="display:flex;"><span>vim.opt.undofile <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                            <span style="color:#6272a4">-- Persistent undo</span>
+</span></span><span style="display:flex;"><span>vim.opt.undodir <span style="color:#ff79c6">=</span> vim.fn.expand(<span style="color:#f1fa8c">&#34;~/.vim/undodir&#34;</span>)  <span style="color:#6272a4">-- Undo directory</span>
+</span></span><span style="display:flex;"><span>vim.opt.updatetime <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">250</span>                           <span style="color:#6272a4">-- Faster completion</span>
+</span></span><span style="display:flex;"><span>vim.opt.timeoutlen <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">500</span>                           <span style="color:#6272a4">-- Key timeout duration</span>
+</span></span><span style="display:flex;"><span>vim.opt.ttimeoutlen <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>                            <span style="color:#6272a4">-- Key code timeout</span>
+</span></span><span style="display:flex;"><span>vim.opt.autoread <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                            <span style="color:#6272a4">-- Auto reload files changed outside vim</span>
+</span></span><span style="display:flex;"><span>vim.opt.autowrite <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                          <span style="color:#6272a4">-- Don&#39;t auto save</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Behavior settings</span>
+</span></span><span style="display:flex;"><span>vim.opt.errorbells <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                     <span style="color:#6272a4">-- No error bells</span>
+</span></span><span style="display:flex;"><span>vim.opt.visualbell <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>                      <span style="color:#6272a4">-- Use visual bell </span>
+</span></span><span style="display:flex;"><span>vim.opt.backspace <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;indent,eol,start&#34;</span>         <span style="color:#6272a4">-- Better backspace behavior</span>
+</span></span><span style="display:flex;"><span>vim.opt.autochdir <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>                      <span style="color:#6272a4">-- Don&#39;t auto change directory</span>
+</span></span><span style="display:flex;"><span>vim.opt.iskeyword:append(<span style="color:#f1fa8c">&#34;-&#34;</span>)                  <span style="color:#6272a4">-- Treat dash as part of word</span>
+</span></span><span style="display:flex;"><span>vim.opt.path:append(<span style="color:#f1fa8c">&#34;**&#34;</span>)                      <span style="color:#6272a4">-- include subdirectories in search</span>
+</span></span><span style="display:flex;"><span>vim.opt.mouse <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;a&#34;</span>                            <span style="color:#6272a4">-- Enable mouse support</span>
+</span></span><span style="display:flex;"><span>vim.opt.encoding <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;UTF-8&#34;</span>                     <span style="color:#6272a4">-- Set encoding</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- !重要 下次打开文件从上次编辑的地方(行数)开始</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Multi Window Controll  多窗口控制</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span>vim.opt.splitbelow <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>      
+</span></span><span style="display:flex;"><span>vim.opt.splitright <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>     
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;leader&gt;o&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-w&gt;w&#39;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;Cycle windows forward&#39;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;hl&#34;</span>, <span style="color:#f1fa8c">&#34;:vsplit&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Split window vertically&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;jk&#34;</span>, <span style="color:#f1fa8c">&#34;:split&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Split window horizontally&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-k&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:resize +2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Increase window height&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-j&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:resize -2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Decrease window height&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-l&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:vertical resize -2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Decrease window width&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;M-h&gt;&#34;</span>, <span style="color:#f1fa8c">&#34;:vertical resize +2&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Increase window width&#34;</span> })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Persistent Editing Records  持久化编辑记录</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
 </span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#34;BufReadPost&#34;</span>, {
 </span></span><span style="display:flex;"><span>  group <span style="color:#ff79c6">=</span> augroup,
 </span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>()
@@ -197,168 +169,128 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>,
 </span></span><span style="display:flex;"><span>})
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Simple LSP </span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Clipboard (OSC52)  OSC52剪贴板</span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">setup_cpp_lsp</span>()
-</span></span><span style="display:flex;"><span>  vim.lsp.start({
-</span></span><span style="display:flex;"><span>    name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;clangd&#39;</span>,
-</span></span><span style="display:flex;"><span>    cmd <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;clangd&#39;</span>, <span style="color:#f1fa8c">&#39;--background-index&#39;</span>, <span style="color:#f1fa8c">&#39;--clang-tidy&#39;</span>, <span style="color:#f1fa8c">&#39;--compile-commands-dir=build&#39;</span>, <span style="color:#f1fa8c">&#39;--header-insertion=never&#39;</span>},
-</span></span><span style="display:flex;"><span>    filetypes <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;cpp&#39;</span>, <span style="color:#f1fa8c">&#39;c&#39;</span>},
-</span></span><span style="display:flex;"><span>    root_dir <span style="color:#ff79c6">=</span> vim.fs.root(<span style="color:#bd93f9">0</span>, {<span style="color:#f1fa8c">&#39;.git&#39;</span>, <span style="color:#f1fa8c">&#39;CMakeLists.txt&#39;</span>}),
-</span></span><span style="display:flex;"><span>    settings <span style="color:#ff79c6">=</span> {},
-</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- vo.clipboard:append(&#34;unnamedplus&#34;)        </span>
+</span></span><span style="display:flex;"><span>vim.g.clipboard <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;osc52&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">send_osc52</span>(text)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> text <span style="color:#ff79c6">or</span> text <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;&#39;</span> <span style="color:#ff79c6">then</span> <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> encoded <span style="color:#ff79c6">=</span> vim.fn.systemlist({<span style="color:#f1fa8c">&#39;base64&#39;</span>, <span style="color:#f1fa8c">&#39;-w&#39;</span>, <span style="color:#f1fa8c">&#39;0&#39;</span>}, text)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> encoded <span style="color:#ff79c6">and</span> encoded[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> osc52 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\027</span><span style="color:#f1fa8c">]52;c;&#39;</span> <span style="color:#ff79c6">..</span> encoded[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">..</span> <span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\007</span><span style="color:#f1fa8c">&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> tty <span style="color:#ff79c6">=</span> vim.loop.new_tty(<span style="color:#bd93f9">1</span>, <span style="color:#ff79c6">false</span>)  
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- Use vim.uv instead of vim.loop, after Nvim0.10, ref:https://neovim.io/doc/user/deprecated.html#_lsp</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- local tty = vim.uv.new_tty(1, false)  </span>
+</span></span><span style="display:flex;"><span>    tty:write(osc52)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ??</span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">setup_python_lsp</span>()
-</span></span><span style="display:flex;"><span>  vim.lsp.start({
-</span></span><span style="display:flex;"><span>    name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;pyright&#39;</span>,
-</span></span><span style="display:flex;"><span>    cmd <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;pyright-langserver&#39;</span>, <span style="color:#f1fa8c">&#39;--stdio&#39;</span>},  
-</span></span><span style="display:flex;"><span>    filetypes <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;python&#39;</span>},
-</span></span><span style="display:flex;"><span>    root_dir <span style="color:#ff79c6">=</span> vim.fs.root(<span style="color:#bd93f9">0</span>, {<span style="color:#f1fa8c">&#39;.git&#39;</span>, <span style="color:#f1fa8c">&#39;setup.py&#39;</span>}),
-</span></span><span style="display:flex;"><span>    settings <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>        python <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">setup_shell_lsp</span>()
-</span></span><span style="display:flex;"><span>  vim.lsp.start({
-</span></span><span style="display:flex;"><span>    name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;bashls&#39;</span>,
-</span></span><span style="display:flex;"><span>    cmd <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;bash-language-server&#39;</span>, <span style="color:#f1fa8c">&#39;start&#39;</span>},
-</span></span><span style="display:flex;"><span>    filetypes <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;sh&#39;</span>, <span style="color:#f1fa8c">&#39;bash&#39;</span>, <span style="color:#f1fa8c">&#39;zsh&#39;</span>},
-</span></span><span style="display:flex;"><span>    root_dir <span style="color:#ff79c6">=</span> vim.fs.root(<span style="color:#bd93f9">0</span>, {<span style="color:#f1fa8c">&#39;.git&#39;</span>}),
-</span></span><span style="display:flex;"><span>    settings <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>      bashIde <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>        globPattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;*@(.sh|.inc|.bash|.command)&#34;</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  })
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#39;FileType&#39;</span>, {
-</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;sh,bash,zsh&#39;</span>,
-</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> setup_shell_lsp,
-</span></span><span style="display:flex;"><span>  desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;Start shell LSP&#39;</span>
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#39;FileType&#39;</span>, {
-</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;cpp&#39;</span>,
-</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> setup_cpp_lsp,
-</span></span><span style="display:flex;"><span>  desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;Start CPP LSP&#39;</span>,
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#39;FileType&#39;</span>, {
-</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;python&#39;</span>,
-</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> setup_python_lsp,
-</span></span><span style="display:flex;"><span>  desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;Start Python LSP&#39;</span>
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- keymap for lsp</span>
-</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd( <span style="color:#f1fa8c">&#34;LspAttach&#34;</span>, {
-</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>(event)
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> opts <span style="color:#ff79c6">=</span> {buffer <span style="color:#ff79c6">=</span> event.buf}
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- Navigation</span>
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;gd&#39;</span>, vim.lsp.buf.definition, opts)
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;gs&#39;</span>, vim.lsp.buf.declaration, opts)
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;gr&#39;</span>, vim.lsp.buf.references, opts)
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;gi&#39;</span>, vim.lsp.buf.implementation, opts)
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- Information</span>
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;K&#39;</span>, vim.lsp.buf.hover, opts)
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;C-k&gt;&#39;</span>, vim.lsp.buf.signature_help, opts)
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- Code actions</span>
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;leader&gt;rn&#39;</span>, vim.lsp.buf.rename, opts)
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- Diagnostics</span>
-</span></span><span style="display:flex;"><span>    vk.set(<span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;leader&gt;d&#39;</span>, vim.diagnostic.open_float, opts)
-</span></span><span style="display:flex;"><span>    vim.bo[event.buf].omnifunc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;v:lua.vim.lsp.omnifunc&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> vim.fn.has<span style="color:#f1fa8c">&#34;nvim-0.11&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">and</span> vim.lsp.completion <span style="color:#ff79c6">then</span>
-</span></span><span style="display:flex;"><span>      vim.lsp.completion.enable(<span style="color:#ff79c6">true</span>, event.data.client_id, event.buf, {autotrigger <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>})
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Listen yank event</span>
+</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#39;TextYankPost&#39;</span>, {
+</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;*&#39;</span>,
+</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> vim.v.event.regname <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;+&#39;</span> <span style="color:#ff79c6">or</span> vim.v.event.regname <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;&#39;</span> <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">local</span> text <span style="color:#ff79c6">=</span> vim.fn.getreg(<span style="color:#f1fa8c">&#39;&#34;&#39;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">#</span>text <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>        send_osc52(text)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#f1fa8c">&#34; [INFO]: Copied to system clipboard via OSC52. &#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- setup_completion()</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim.diagnostic.config({
-</span></span><span style="display:flex;"><span>  virtual_line <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>,
-</span></span><span style="display:flex;"><span>  virtual_text <span style="color:#ff79c6">=</span> { prefix <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;!&#39;</span> },
-</span></span><span style="display:flex;"><span>  signs <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>,
-</span></span><span style="display:flex;"><span>  underline <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>,
-</span></span><span style="display:flex;"><span>  update_in_insert <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>,
-</span></span><span style="display:flex;"><span>  severity_sort <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>,
-</span></span><span style="display:flex;"><span>  float <span style="color:#ff79c6">=</span> { border <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;rounded&#39;</span> }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>,
 </span></span><span style="display:flex;"><span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">--  Package </span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Netrw tree-liked side bar (left side bar)  左边那个文件树</span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Bootstrap lazy.nvim</span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> lazypath <span style="color:#ff79c6">=</span> vim.fn.stdpath(<span style="color:#f1fa8c">&#34;data&#34;</span>) <span style="color:#ff79c6">..</span> <span style="color:#f1fa8c">&#34;/lazy/lazy.nvim&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> (vim.uv <span style="color:#ff79c6">or</span> vim.loop).fs_stat(lazypath) <span style="color:#ff79c6">then</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> lazyrepo <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://github.com/folke/lazy.nvim.git&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> out <span style="color:#ff79c6">=</span> vim.fn.system({ <span style="color:#f1fa8c">&#34;git&#34;</span>, <span style="color:#f1fa8c">&#34;clone&#34;</span>, <span style="color:#f1fa8c">&#34;--filter=blob:none&#34;</span>, <span style="color:#f1fa8c">&#34;--branch=stable&#34;</span>, lazyrepo, lazypath })
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> vim.v.shell_error <span style="color:#ff79c6">~=</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">then</span>
-</span></span><span style="display:flex;"><span>    vim.api.nvim_echo({
-</span></span><span style="display:flex;"><span>      { <span style="color:#f1fa8c">&#34;Failed to clone lazy.nvim:</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#f1fa8c">&#34;ErrorMsg&#34;</span> },
-</span></span><span style="display:flex;"><span>      { out, <span style="color:#f1fa8c">&#34;WarningMsg&#34;</span> },
-</span></span><span style="display:flex;"><span>      { <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">Press any key to exit...&#34;</span> },
-</span></span><span style="display:flex;"><span>    }, <span style="color:#ff79c6">true</span>, {})
-</span></span><span style="display:flex;"><span>    vim.fn.getchar()
-</span></span><span style="display:flex;"><span>    os.exit(<span style="color:#bd93f9">1</span>)
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>vim.g.netrw_liststyle <span style="color:#ff79c6">=</span> NETRW_LISTSTYLE
+</span></span><span style="display:flex;"><span>vim.g.netrw_winsize <span style="color:#ff79c6">=</span> LEFT_BAR_SIZE
+</span></span><span style="display:flex;"><span>vim.g.netrw_banner <span style="color:#ff79c6">=</span> NETRW_BANNER_DISABLE
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;e&#34;</span>, <span style="color:#f1fa8c">&#34;:Lexplore&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Open file explorer&#34;</span> }) 
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- 在 netrw 中复制文件路径</span>
+</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd(<span style="color:#f1fa8c">&#34;FileType&#34;</span>, {
+</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;netrw&#34;</span>,
+</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>()
+</span></span><span style="display:flex;"><span>    vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;pa&#34;</span>, <span style="color:#ff79c6">function</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">local</span> path <span style="color:#ff79c6">=</span> vim.fn.fnamemodify(
+</span></span><span style="display:flex;"><span>        vim.b.netrw_curdir <span style="color:#ff79c6">..</span> <span style="color:#f1fa8c">&#34;/&#34;</span> <span style="color:#ff79c6">..</span> vim.fn.matchstr(vim.fn.getline(<span style="color:#f1fa8c">&#39;.&#39;</span>), <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">S</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">+$&#34;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#34;:p&#34;</span>
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">-- vim.fn.setreg(&#34;+&#34;, path)</span>
+</span></span><span style="display:flex;"><span>      send_osc52(path)
+</span></span><span style="display:flex;"><span>      print(<span style="color:#f1fa8c">&#34; [INFO] Copied: &#34;</span> <span style="color:#ff79c6">..</span> path <span style="color:#ff79c6">..</span> <span style="color:#f1fa8c">&#34;via OSC52&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>, { buffer <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>,
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Compeletion  补全(路径补全+缓存词补全)</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;Tab&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;pumvisible() ? &#34;&lt;C-n&gt;&#34; : &#34;&lt;Tab&gt;&#34;&#39;</span>, { expr <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;S-Tab&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;pumvisible() ? &#34;&lt;C-p&gt;&#34; : &#34;&lt;S-Tab&gt;&#34;&#39;</span>, { expr <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#39;i&#39;</span>, <span style="color:#f1fa8c">&#39;&lt;CR&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;pumvisible() ? &#34;&lt;C-y&gt;&#34; : &#34;&lt;CR&gt;&#34;&#39;</span>, { expr <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span> })
+</span></span><span style="display:flex;"><span>vim.opt.complete <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;.&#39;</span>, <span style="color:#f1fa8c">&#39;w&#39;</span>, <span style="color:#f1fa8c">&#39;b&#39;</span>, <span style="color:#f1fa8c">&#39;u&#39;</span>, <span style="color:#f1fa8c">&#39;t&#39;</span>} 
+</span></span><span style="display:flex;"><span>vim.opt.completeopt <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;menu&#39;</span>, <span style="color:#f1fa8c">&#39;menuone&#39;</span>, <span style="color:#f1fa8c">&#39;noselect&#39;</span>}
+</span></span><span style="display:flex;"><span>vim.opt.wildmenu <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>vim.opt.wildmode <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;longest:full,full&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">feed_c_n</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> keys <span style="color:#ff79c6">=</span> vim.api.nvim_replace_termcodes(<span style="color:#f1fa8c">&#39;&lt;C-n&gt;&#39;</span>, <span style="color:#ff79c6">true</span>, <span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">true</span>)
+</span></span><span style="display:flex;"><span>  vim.api.nvim_feedkeys(keys, <span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#ff79c6">true</span>)
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span>vim.opt.rtp:prepend(lazypath)
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Make sure to setup `mapleader` and `maplocalleader` before</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- loading lazy.nvim so that mappings are correct.</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- This is also a good place to setup other settings (vim.opt)</span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Setup lazy.nvim</span>
-</span></span><span style="display:flex;"><span>require(<span style="color:#f1fa8c">&#34;lazy&#34;</span>).setup({
-</span></span><span style="display:flex;"><span>  spec <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">-- add your plugins here</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#39;saghen/blink.cmp&#39;</span>,
-</span></span><span style="display:flex;"><span>      opts <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>        fuzzy <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>          implementation <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;lua&#34;</span>, <span style="color:#6272a4">-- 强制使用 Lua 实现，不检查 Rust</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        keymap <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>          [<span style="color:#f1fa8c">&#39;&lt;S-Tab&gt;&#39;</span>] <span style="color:#ff79c6">=</span> { <span style="color:#f1fa8c">&#39;select_prev&#39;</span>, <span style="color:#f1fa8c">&#39;fallback&#39;</span> },
-</span></span><span style="display:flex;"><span>          [<span style="color:#f1fa8c">&#39;&lt;Tab&gt;&#39;</span>] <span style="color:#ff79c6">=</span> { <span style="color:#f1fa8c">&#39;select_next&#39;</span>, <span style="color:#f1fa8c">&#39;fallback&#39;</span> }, 
-</span></span><span style="display:flex;"><span>          [<span style="color:#f1fa8c">&#39;&lt;CR&gt;&#39;</span>] <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;accept&#39;</span>, <span style="color:#f1fa8c">&#39;fallback&#39;</span>}, 
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        completion <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>          list <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>            selection <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>              preselect <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>,  <span style="color:#6272a4">-- 非常他妈的重要的一个配置</span>
-</span></span><span style="display:flex;"><span>            },
-</span></span><span style="display:flex;"><span>          },
-</span></span><span style="display:flex;"><span>          menu <span style="color:#ff79c6">=</span> {
-</span></span><span style="display:flex;"><span>            border <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;rounded&#34;</span>,
-</span></span><span style="display:flex;"><span>          },
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#39;windwp/nvim-autopairs&#39;</span>,
-</span></span><span style="display:flex;"><span>        event <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;InsertEnter&#34;</span>,
-</span></span><span style="display:flex;"><span>        config <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#34;vague2k/vague.nvim&#34;</span>,
-</span></span><span style="display:flex;"><span>      opts <span style="color:#ff79c6">=</span> {italic <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>}
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- Configure any other settings here. See the documentation for more details.</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- colorscheme that will be used when installing plugins.</span>
-</span></span><span style="display:flex;"><span>  install <span style="color:#ff79c6">=</span> { colorscheme <span style="color:#ff79c6">=</span> { <span style="color:#f1fa8c">&#34;habamax&#34;</span> } },
-</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- automatically check for plugin updates</span>
-</span></span><span style="display:flex;"><span>  checker <span style="color:#ff79c6">=</span> { enabled <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span> },
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">feed_c_e</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> keys <span style="color:#ff79c6">=</span>  vim.api.nvim_replace_termcodes(<span style="color:#f1fa8c">&#34;&lt;C-e&gt;&#34;</span>, <span style="color:#ff79c6">true</span>, <span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">true</span>)
+</span></span><span style="display:flex;"><span>  vim.api.nvim_feedkeys(keys, <span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#ff79c6">true</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#ff79c6">function</span> <span style="color:#50fa7b">feed_c_x_c_f</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">local</span> keys <span style="color:#ff79c6">=</span>  vim.api.nvim_replace_termcodes(<span style="color:#f1fa8c">&#34;&lt;C-x&gt;&lt;C-f&gt;&#34;</span>, <span style="color:#ff79c6">true</span>, <span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">true</span>)
+</span></span><span style="display:flex;"><span>  vim.api.nvim_feedkeys(keys, <span style="color:#f1fa8c">&#39;n&#39;</span>, <span style="color:#ff79c6">true</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- Event Listener</span>
+</span></span><span style="display:flex;"><span>vim.api.nvim_create_autocmd({<span style="color:#f1fa8c">&#39;TextChangedI&#39;</span>, <span style="color:#f1fa8c">&#39;TextChangedP&#39;</span>}, { <span style="color:#6272a4">-- I for normal env, P for popmenu env</span>
+</span></span><span style="display:flex;"><span>  pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;*&#39;</span>,
+</span></span><span style="display:flex;"><span>  callback <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">function</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> col <span style="color:#ff79c6">=</span> vim.fn.col(<span style="color:#f1fa8c">&#39;.&#39;</span>) <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> line <span style="color:#ff79c6">=</span> vim.api.nvim_get_current_line()
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> prev_chars <span style="color:#ff79c6">=</span> line:sub(col<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>, col)
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> pum_visible <span style="color:#ff79c6">=</span> vim.fn.pumvisible() <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> in_complete_mode <span style="color:#ff79c6">=</span> vim.fn.complete_info().mode <span style="color:#ff79c6">~=</span> <span style="color:#f1fa8c">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">local</span> buftype <span style="color:#ff79c6">=</span> vim.bo.buftype
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">--========== 路径补全 ==========--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> prev_chars:match(<span style="color:#f1fa8c">&#39;[/]&#39;</span>) <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> pum_visible <span style="color:#ff79c6">then</span> 
+</span></span><span style="display:flex;"><span>        vim.schedule(<span style="color:#ff79c6">function</span>() pcall(feed_c_x_c_f) <span style="color:#ff79c6">end</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">--========== 缓冲区补全 ==========--</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> prev_chars:match(<span style="color:#f1fa8c">&#39;[%w_][%w_]&#39;</span>) <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> pum_visible <span style="color:#ff79c6">then</span> 
+</span></span><span style="display:flex;"><span>        vim.schedule(<span style="color:#ff79c6">function</span>() pcall(feed_c_e) <span style="color:#ff79c6">end</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- pm已经弹出或者在补全状态中</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> pum_visible <span style="color:#ff79c6">or</span> in_complete_mode <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- 只在普通 buffer（排除 prompt/special）触发</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> buftype <span style="color:#ff79c6">~=</span> <span style="color:#f1fa8c">&#39;&#39;</span> <span style="color:#ff79c6">then</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">-- 触发补全</span>
+</span></span><span style="display:flex;"><span>    vim.schedule(<span style="color:#ff79c6">function</span>() pcall(feed_c_n) <span style="color:#ff79c6">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">end</span>,
 </span></span><span style="display:flex;"><span>})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim.cmd.colorscheme(<span style="color:#f1fa8c">&#34;vague&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- A Littlebit Useless for ME  一些在我的工作流中好像没什么用的功能(用的很少)</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">-- ============================================================================</span>
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;v&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;d&#34;</span>, <span style="color:#f1fa8c">&#39;&#34;_d&#39;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Delete without yanking&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;bn&#34;</span>, <span style="color:#f1fa8c">&#34;:bnext&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Next buffer&#34;</span> })
+</span></span><span style="display:flex;"><span>vim.keymap.set(<span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&lt;leader&gt;bp&#34;</span>, <span style="color:#f1fa8c">&#34;:bprevious&lt;CR&gt;&#34;</span>, { desc <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Previous buffer&#34;</span> })
 </span></span></code></pre></div><p></br></br></br></p>
 <h2 id="tmux">Tmux</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#6272a4"># ~/.tmux.conf</span>

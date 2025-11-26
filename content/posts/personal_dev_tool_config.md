@@ -7,141 +7,113 @@ toc = true  # 启用目录
 
 ## Neovim
 ```lua
+-- #####################################################
+-- ##  ~/.config/nvim/init.lua                        ##
+-- ##  Minimal Require: Neovim 0.7.0 (gclib >= 2.27)  ##
+-- ##  Last Update: 2025.11.21                        ##
+-- ##  By: dingyx109@gmail.com                        ##
+-- #####################################################
+
 -- ============================================================================
--- Global Definition
+-- Global Definition  一些基本的全局定义
 -- ============================================================================
-local vk = vim.keymap
-local vo = vim.opt
-local TABSPACE = 4
-local KEEPLINE = 8
+local NUMBER_OF_TABSPACE = 4
+local NUMBER_OF_KEEPLINES = 8
+local LEFT_BAR_SIZE = 24
+local NETRW_LISTSTYLE = 0
+local NETRW_BANNER_DISABLE = 0
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("n", "<leader>s", ":w<CR>", {remap=true})
+vim.keymap.set("n", "<leader>ff", ":find ", { desc = "Find file" })
 
--- Dyx really need this
-vk.set("i", "jk", "<ESC>")
-vk.set("n", "<leader>s", ":w<CR>", {remap=true})
+-- ============================================================================
+-- Color Scheme Fix  对配色做一些自定义修正
+-- ============================================================================
+-- vim.o.background = "dark"
+-- vim.cmd("colorscheme default")
 
--- Basic settings
-vo.number = true                  -- Line numbers
--- vim.opt.relativenumber = true          -- Relative line numbers
-vo.cursorline = true              -- Highlight current line
-vo.wrap = false                   -- Don't wrap lines
-vo.scrolloff = KEEPLINE           -- Keep 10 lines above/below cursor 
--- vo.sidescrolloff = 8              -- Keep 8 columns left/right of cursor
+vim.o.background = "light"
+vim.cmd("colorscheme quiet")
 
--- Indentation
-vo.tabstop = TABSPACE             -- Tab width
-vo.shiftwidth = TABSPACE          -- Indent width
-vo.softtabstop = TABSPACE         -- Soft tab stop
-vo.expandtab = true               -- Use spaces instead of tabs
-vo.smartindent = true             -- Smart auto-indenting
-vo.autoindent = true              -- Copy indent from current line
 
--- Search settings
-vo.ignorecase = true              -- Case insensitive search
-vo.smartcase = true               -- Case sensitive if uppercase in search
-vo.hlsearch = false               -- Don't highlight search results 
-vo.incsearch = true               -- Show matches as you type
-
--- Visual settings
-vim.opt.termguicolors = true                       -- Enable 24-bit colors
-vim.opt.signcolumn = "yes"                         -- Always show sign column
--- vim.opt.colorcolumn = "100"                        -- Show column at 100 characters
-vim.opt.showmatch = true                           -- Highlight matching brackets
-vim.opt.matchtime = 2                              -- How long to show matching bracket
-vim.opt.cmdheight = 1                              -- Command line height
--- vim.opt.showmode = false                           -- Don't show mode in command line 
-vim.opt.pumheight = 10                             -- Popup menu height 
--- vim.opt.pumblend = 10                              -- Popup menu transparency 
--- vim.opt.winblend = 0                               -- Floating window transparency 
-vim.opt.conceallevel = 0                           -- Don't hide markup 
-vim.opt.concealcursor = ""                         -- Don't hide cursor line markup 
-vim.opt.lazyredraw = true                          -- Don't redraw during macros
-vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
-
--- File handling
-vo.backup = false                             -- Don't create backup files
-vo.writebackup = false                        -- Don't create backup before writing
-vo.swapfile = false                           -- Don't create swap files
-vo.undofile = true                            -- Persistent undo
-vo.undodir = vim.fn.expand("~/.vim/undodir")  -- Undo directory
-vo.updatetime = 250                           -- Faster completion
-vo.timeoutlen = 500                           -- Key timeout duration
-vo.ttimeoutlen = 0                            -- Key code timeout
-vo.autoread = true                            -- Auto reload files changed outside vim
-vo.autowrite = false                          -- Don't auto save
-
--- Behavior settings
--- vo.hidden = true                          -- Allow hidden buffers
--- vo.modifiable = true                      -- Allow buffer modifications
-vo.errorbells = false                     -- No error bells
-vo.visualbell = true                      -- Use visual bell 
-vo.backspace = "indent,eol,start"         -- Better backspace behavior
-vo.autochdir = false                      -- Don't auto change directory
-vo.iskeyword:append("-")                  -- Treat dash as part of word
-vo.path:append("**")                      -- include subdirectories in search
-vo.selection = "exclusive"                -- Selection behavior
-vo.mouse = "a"                            -- Enable mouse support
-
--- 开启基于osc52的剪贴板 --
-vim.g.clipboard = 'osc52'
-vo.clipboard:append("unnamedplus")     
--- 开启基于osc52的剪贴板 --
-
-vo.encoding = "UTF-8"                     -- Set encoding
-
--- Split behavior
-vo.splitbelow = true      -- Horizontal splits go below
-vo.splitright = true      -- Vertical splits go right
-
--- vk.set("x", "<leader>p", '"_dP', { desc = "Paste without yanking" })
-vk.set("v", "<leader>d", '"_d', { desc = "Delete without yanking" })
-vk.set("n", "<leader>e", ":Explore<CR>", { desc = "Open file explorer" }) 
-vk.set("n", "<leader>ff", ":find ", { desc = "Find file" })
-
-vk.set("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
-vk.set("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous buffer" })
-
--- Better window navigation
-vk.set('n', '<leader>o', '<C-w>w', { desc = 'Cycle windows forward' })
-
--- Splitting & Resizing
-vk.set("n", "<leader>hl", ":vsplit<CR>", { desc = "Split window vertically" })
-vk.set("n", "<leader>jk", ":split<CR>", { desc = "Split window horizontally" })
-vk.set("n", "<M-k>", ":resize +2<CR>", { desc = "Increase window height" })
-vk.set("n", "<M-j>", ":resize -2<CR>", { desc = "Decrease window height" })
-vk.set("n", "<M-l>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
-vk.set("n", "<M-h>", ":vertical resize +2<CR>", { desc = "Increase window width" })
-
--- 
-vk.set('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true })
-vk.set('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true })
-vim.keymap.set('i', '<M-c>p', '<C-x><C-f>', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-c>b', '<C-x><C-p>', { noremap = true, silent = true })
-vim.keymap.set('i', '<M-c>l', '<C-x><C-o>', { noremap = true, silent = true })
-
-vo.wildmenu = true
-vo.wildmode = "longest:full,full"
-
--- Copy Full File-Path
-vk.set("n", "<leader>pa", function()
-	local path = vim.fn.expand("%:p")
-	vim.fn.setreg("+", path)
-	print("file:", path)
-end)
-
--- Basic autocommands
+-- ============================================================================
+-- Display and Controll  基础的浏览和控制功能
+-- ============================================================================
+-- Basic Display  基础的显示、浏览功能
+vim.opt.number = true                   -- Line numbers
+vim.opt.cursorline = true               -- Highlight current line
+vim.opt.wrap = false                    -- Don't wrap lines
+vim.opt.scrolloff = NUMBER_OF_KEEPLINES -- Keep lines above/below cursor 
+-- Indentation  缩进相关
+vim.opt.tabstop = NUMBER_OF_TABSPACE             -- Tab width
+vim.opt.shiftwidth = NUMBER_OF_TABSPACE          -- Indent width
+vim.opt.softtabstop = NUMBER_OF_TABSPACE         -- Soft tab stop
+vim.opt.expandtab = true               -- Use spaces instead of tabs
+vim.opt.smartindent = true             -- Smart auto-indenting
+vim.opt.autoindent = true              -- Copy indent from current line
+-- Search settings  搜索设置
+vim.opt.ignorecase = true              -- Case insensitive search
+vim.opt.smartcase = true               -- Case sensitive if uppercase in search
+vim.opt.hlsearch = true                -- Highlight search results 
+vim.opt.incsearch = true               -- Show matches as you type
+-- Highlight yanked text  复制的时候高亮闪烁一下
 local augroup = vim.api.nvim_create_augroup("UserConfig", {})
-
--- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup,
   callback = function()
     vim.highlight.on_yank()
   end,
 })
+-- Visual settings
+vim.opt.termguicolors = true                       -- Enable 24-bit colors
+vim.opt.signcolumn = "yes"                         -- Always show sign column
+vim.opt.cmdheight = 1                              -- Command line height
+vim.opt.pumheight = 10                             -- Popup menu height 
+vim.opt.conceallevel = 0                           -- Don't hide markup 
+vim.opt.concealcursor = ""                         -- Don't hide cursor line markup 
+vim.opt.lazyredraw = true                          -- Don't redraw during macros
+vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
+-- File handling
+vim.opt.backup = false                             -- Don't create backup files
+vim.opt.writebackup = false                        -- Don't create backup before writing
+vim.opt.swapfile = false                           -- Don't create swap files
+vim.opt.undofile = true                            -- Persistent undo
+vim.opt.undodir = vim.fn.expand("~/.vim/undodir")  -- Undo directory
+vim.opt.updatetime = 250                           -- Faster completion
+vim.opt.timeoutlen = 500                           -- Key timeout duration
+vim.opt.ttimeoutlen = 0                            -- Key code timeout
+vim.opt.autoread = true                            -- Auto reload files changed outside vim
+vim.opt.autowrite = false                          -- Don't auto save
+-- Behavior settings
+vim.opt.errorbells = false                     -- No error bells
+vim.opt.visualbell = true                      -- Use visual bell 
+vim.opt.backspace = "indent,eol,start"         -- Better backspace behavior
+vim.opt.autochdir = false                      -- Don't auto change directory
+vim.opt.iskeyword:append("-")                  -- Treat dash as part of word
+vim.opt.path:append("**")                      -- include subdirectories in search
+vim.opt.mouse = "a"                            -- Enable mouse support
+vim.opt.encoding = "UTF-8"                     -- Set encoding
 
--- !重要 下次打开文件从上次编辑的地方(行数)开始
+ 
+-- ============================================================================
+-- Multi Window Controll  多窗口控制
+-- ============================================================================
+vim.opt.splitbelow = true      
+vim.opt.splitright = true     
+vim.keymap.set('n', '<leader>o', '<C-w>w', { desc = 'Cycle windows forward' })
+vim.keymap.set("n", "<leader>hl", ":vsplit<CR>", { desc = "Split window vertically" })
+vim.keymap.set("n", "<leader>jk", ":split<CR>", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<M-k>", ":resize +2<CR>", { desc = "Increase window height" })
+vim.keymap.set("n", "<M-j>", ":resize -2<CR>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<M-l>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<M-h>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+
+
+-- ============================================================================
+-- Persistent Editing Records  持久化编辑记录
+-- ============================================================================
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup,
   callback = function()
@@ -153,168 +125,128 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
+
 -- ============================================================================
--- Simple LSP 
+-- Clipboard (OSC52)  OSC52剪贴板
 -- ============================================================================
-local function setup_cpp_lsp()
-  vim.lsp.start({
-    name = 'clangd',
-    cmd = {'clangd', '--background-index', '--clang-tidy', '--compile-commands-dir=build', '--header-insertion=never'},
-    filetypes = {'cpp', 'c'},
-    root_dir = vim.fs.root(0, {'.git', 'CMakeLists.txt'}),
-    settings = {},
-  })
+-- vo.clipboard:append("unnamedplus")        
+vim.g.clipboard = 'osc52'
+local function send_osc52(text)
+  if not text or text == '' then return end
+  local encoded = vim.fn.systemlist({'base64', '-w', '0'}, text)
+  if encoded and encoded[1] then
+    local osc52 = '\027]52;c;' .. encoded[1] .. '\007'
+    local tty = vim.loop.new_tty(1, false)  
+    -- Use vim.uv instead of vim.loop, after Nvim0.10, ref:https://neovim.io/doc/user/deprecated.html#_lsp
+    -- local tty = vim.uv.new_tty(1, false)  
+    tty:write(osc52)
+  end
 end
-
--- ??
-local function setup_python_lsp()
-  vim.lsp.start({
-    name = 'pyright',
-    cmd = {'pyright-langserver', '--stdio'},  
-    filetypes = {'python'},
-    root_dir = vim.fs.root(0, {'.git', 'setup.py'}),
-    settings = {
-        python = {
-        },
-    },
-})
-end
-
-local function setup_shell_lsp()
-  vim.lsp.start({
-    name = 'bashls',
-    cmd = {'bash-language-server', 'start'},
-    filetypes = {'sh', 'bash', 'zsh'},
-    root_dir = vim.fs.root(0, {'.git'}),
-    settings = {
-      bashIde = {
-        globPattern = "*@(.sh|.inc|.bash|.command)"
-      }
-    }
-  })
-end
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'sh,bash,zsh',
-  callback = setup_shell_lsp,
-  desc = 'Start shell LSP'
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'cpp',
-  callback = setup_cpp_lsp,
-  desc = 'Start CPP LSP',
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'python',
-  callback = setup_python_lsp,
-  desc = 'Start Python LSP'
-})
-
--- keymap for lsp
-vim.api.nvim_create_autocmd( "LspAttach", {
-  callback = function(event)
-    local opts = {buffer = event.buf}
-    -- Navigation
-    vk.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vk.set('n', 'gs', vim.lsp.buf.declaration, opts)
-    vk.set('n', 'gr', vim.lsp.buf.references, opts)
-    vk.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    -- Information
-    vk.set('n', 'K', vim.lsp.buf.hover, opts)
-    vk.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    -- Code actions
-    vk.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    -- Diagnostics
-    vk.set('n', '<leader>d', vim.diagnostic.open_float, opts)
-    vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    if vim.fn.has"nvim-0.11" == 1 and vim.lsp.completion then
-      vim.lsp.completion.enable(true, event.data.client_id, event.buf, {autotrigger = false})
+-- Listen yank event
+vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  callback = function()
+    if vim.v.event.regname == '+' or vim.v.event.regname == '' then
+      local text = vim.fn.getreg('"')
+      if #text > 0 then
+        send_osc52(text)
+        print(" [INFO]: Copied to system clipboard via OSC52. ")
+      end
     end
-    -- setup_completion()
-  end
-})
-
-vim.diagnostic.config({
-  virtual_line = true,
-  virtual_text = { prefix = '!' },
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = { border = 'rounded' }
+  end,
 })
 
 
 -- ============================================================================
---  Package 
+-- Netrw tree-liked side bar (left side bar)  左边那个文件树
 -- ============================================================================
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+vim.g.netrw_liststyle = NETRW_LISTSTYLE
+vim.g.netrw_winsize = LEFT_BAR_SIZE
+vim.g.netrw_banner = NETRW_BANNER_DISABLE
+vim.keymap.set("n", "<leader>e", ":Lexplore<CR>", { desc = "Open file explorer" }) 
+-- 在 netrw 中复制文件路径
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    vim.keymap.set("n", "<leader>pa", function()
+      local path = vim.fn.fnamemodify(
+        vim.b.netrw_curdir .. "/" .. vim.fn.matchstr(vim.fn.getline('.'), "\\S\\+$"),
+        ":p"
+      )
+      -- vim.fn.setreg("+", path)
+      send_osc52(path)
+      print(" [INFO] Copied: " .. path .. "via OSC52")
+    end, { buffer = true })
+  end,
+})
+
+
+-- ============================================================================
+-- Compeletion  补全(路径补全+缓存词补全)
+-- ============================================================================
+vim.keymap.set('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true })
+vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true })
+vim.keymap.set('i', '<CR>', 'pumvisible() ? "<C-y>" : "<CR>"', { expr = true })
+vim.opt.complete = {'.', 'w', 'b', 'u', 't'} 
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.wildmenu = true
+vim.opt.wildmode = "longest:full,full"
+local function feed_c_n()
+  local keys = vim.api.nvim_replace_termcodes('<C-n>', true, false, true)
+  vim.api.nvim_feedkeys(keys, 'n', true)
 end
-vim.opt.rtp:prepend(lazypath)
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
--- Setup lazy.nvim
-require("lazy").setup({
-  spec = {
-    {
-      -- add your plugins here
-      'saghen/blink.cmp',
-      opts = {
-        fuzzy = {
-          implementation = "lua", -- 强制使用 Lua 实现，不检查 Rust
-        },
-        keymap = {
-          ['<S-Tab>'] = { 'select_prev', 'fallback' },
-          ['<Tab>'] = { 'select_next', 'fallback' }, 
-          ['<CR>'] = {'accept', 'fallback'}, 
-        },
-        completion = {
-          list = {
-            selection = {
-              preselect = false,  -- 非常他妈的重要的一个配置
-            },
-          },
-          menu = {
-            border = "rounded",
-          },
-        },
-      }
-    },
-    {
-        'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        config = true
-    },
-    {
-      "vague2k/vague.nvim",
-      opts = {italic = false}
-    },
-
-  },
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
-  checker = { enabled = false },
+local function feed_c_e()
+  local keys =  vim.api.nvim_replace_termcodes("<C-e>", true, false, true)
+  vim.api.nvim_feedkeys(keys, 'n', true)
+end
+local function feed_c_x_c_f()
+  local keys =  vim.api.nvim_replace_termcodes("<C-x><C-f>", true, false, true)
+  vim.api.nvim_feedkeys(keys, 'n', true)
+end
+-- Event Listener
+vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, { -- I for normal env, P for popmenu env
+  pattern = '*',
+  callback = function()
+    local col = vim.fn.col('.') - 1
+    local line = vim.api.nvim_get_current_line()
+    local prev_chars = line:sub(col-1, col)
+    local pum_visible = vim.fn.pumvisible() == 1
+    local in_complete_mode = vim.fn.complete_info().mode ~= ''
+    local buftype = vim.bo.buftype
+    --========== 路径补全 ==========--
+    if prev_chars:match('[/]') then
+      if not pum_visible then 
+        vim.schedule(function() pcall(feed_c_x_c_f) end)
+      end
+      return
+    end
+    --========== 缓冲区补全 ==========--
+    if not prev_chars:match('[%w_][%w_]') then
+      if pum_visible then 
+        vim.schedule(function() pcall(feed_c_e) end)
+      end
+      return
+    end
+    -- pm已经弹出或者在补全状态中
+    if pum_visible or in_complete_mode then
+      return
+    end
+    -- 只在普通 buffer（排除 prompt/special）触发
+    if buftype ~= '' then
+      return
+    end
+    -- 触发补全
+    vim.schedule(function() pcall(feed_c_n) end)
+  end,
 })
 
-vim.cmd.colorscheme("vague")
+
+-- ============================================================================
+-- A Littlebit Useless for ME  一些在我的工作流中好像没什么用的功能(用的很少)
+-- ============================================================================
+vim.keymap.set("v", "<leader>d", '"_d', { desc = "Delete without yanking" })
+vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous buffer" })
 ```
 
 </br></br></br>
