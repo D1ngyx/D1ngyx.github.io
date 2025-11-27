@@ -10,9 +10,10 @@ toc = true  # 启用目录
 -- #####################################################
 -- ##  ~/.config/nvim/init.lua                        ##
 -- ##  Minimal Require: Neovim 0.7.0 (gclib >= 2.27)  ##
--- ##  Last Update: 2025.11.21                        ##
+-- ##  Last Update: 2025.11.27                        ##
 -- ##  By: dingyx109@gmail.com                        ##
 -- #####################################################
+
 
 -- ============================================================================
 -- Global Definition  一些基本的全局定义
@@ -27,6 +28,7 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("n", "<leader>s", ":w<CR>", {remap=true})
 vim.keymap.set("n", "<leader>ff", ":find ", { desc = "Find file" })
+
 
 -- ============================================================================
 -- Color Scheme Fix  对配色做一些自定义修正
@@ -184,11 +186,30 @@ vim.api.nvim_create_autocmd("FileType", {
 -- ============================================================================
 -- Compeletion  补全(路径补全+缓存词补全)
 -- ============================================================================
-vim.keymap.set('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true })
-vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true })
+-- vim.keymap.set('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true })
+-- vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true })
+-- vscode-liked cmp menu.  类似 vscode 的补全功能(tab选择 回车确认)
+vim.keymap.set('i', '<Tab>', function()
+    if vim.fn.pumvisible() == 1 then
+        local keys = vim.api.nvim_replace_termcodes('<Down>', true, true, true)
+        vim.api.nvim_feedkeys(keys, 'n', false)
+        return ''
+    else
+        return '<Tab>'
+    end
+end, { expr = true })
+vim.keymap.set('i', '<S-Tab>', function()
+    if vim.fn.pumvisible() == 1 then
+        local keys = vim.api.nvim_replace_termcodes('<Up>', true, true, true)
+        vim.api.nvim_feedkeys(keys, 'n', false)
+        return ''
+    else
+        return '<S-Tab>'
+    end
+end, { expr = true })
 vim.keymap.set('i', '<CR>', 'pumvisible() ? "<C-y>" : "<CR>"', { expr = true })
 vim.opt.complete = {'.', 'w', 'b', 'u', 't'} 
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = {'menu', 'menuone', 'noinsert', 'noselect'}
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
 local function feed_c_n()
