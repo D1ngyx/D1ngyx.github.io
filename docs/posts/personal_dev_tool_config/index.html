@@ -1,7 +1,7 @@
 <!doctype html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>[Linux] 个人Neovim和Tmux配置 | My New Hugo Site</title><link rel=stylesheet href=/css/style.css></head><body><header class=topbar><nav><ul class=menu><li class=menu-left><button id=toggleSidebar>DirNav 🗺️</button></li><li><a href=/>Home 🏠</a></li><li><a href=/posts/>Posts 📚</a></li><li><a href=/tags/>Tags 🏷️</a></li></ul></nav></header><div class=container><aside class="sidebar hidden" id=sidebar><div class=resizer id=resizer></div><div class=toc><h3>Directory</h3><ul><nav id=TableOfContents><ul><li><a href=#neovim>Neovim</a></li><li><a href=#tmux>Tmux</a></li></ul></nav></ul></div></aside><main class=content><article><h1>[Linux] 个人Neovim和Tmux配置</h1><p><strong>摘要：</strong> 个人工作中用的 Neovim 和 Tmux 配置。备忘用，供参考。如果您使用这些工具，应该定义自己舒服的工作流，而不是照搬网上的配置，否则Vscode确实已经足够强大 :)</p><h2 id=neovim>Neovim</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#6272a4>-- #####################################################</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ##  ~/.config/nvim/init.lua                        ##</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ##  Minimal Require: Neovim 0.7.0 (gclib &gt;= 2.27)  ##</span>
-</span></span><span style=display:flex><span><span style=color:#6272a4>-- ##  Last Update: 2025.11.27                        ##</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- ##  Last Update: 2025.11.29                        ##</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ##  By: dingyx109@gmail.com                        ##</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- #####################################################</span>
 </span></span><span style=display:flex><span>
@@ -18,39 +18,48 @@
 </span></span><span style=display:flex><span>vim.g.maplocalleader <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;</span><span style=color:#f1fa8c>\\</span><span style=color:#f1fa8c>&#34;</span>
 </span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#34;i&#34;</span>, <span style=color:#f1fa8c>&#34;jk&#34;</span>, <span style=color:#f1fa8c>&#34;&lt;ESC&gt;&#34;</span>)
 </span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#34;n&#34;</span>, <span style=color:#f1fa8c>&#34;&lt;leader&gt;s&#34;</span>, <span style=color:#f1fa8c>&#34;:w&lt;CR&gt;&#34;</span>, {remap<span style=color:#ff79c6>=</span><span style=color:#ff79c6>true</span>})
-</span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#34;n&#34;</span>, <span style=color:#f1fa8c>&#34;&lt;leader&gt;ff&#34;</span>, <span style=color:#f1fa8c>&#34;:find &#34;</span>, { desc <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;Find file&#34;</span> })
+</span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#34;n&#34;</span>, <span style=color:#f1fa8c>&#34;&lt;leader&gt;q&#34;</span>, <span style=color:#f1fa8c>&#34;:q&lt;CR&gt;&#34;</span>, {remap<span style=color:#ff79c6>=</span><span style=color:#ff79c6>true</span>})
+</span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#34;n&#34;</span>, <span style=color:#f1fa8c>&#34;&lt;leader&gt;ff&#34;</span>, <span style=color:#f1fa8c>&#34;:find &#34;</span>, {desc <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;Find file&#34;</span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> DARK_YELLOW <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#b58900&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> DARK_GREEN <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#228b22&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> LIGHT_YELLOW <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#ffd700&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> DARK_GREY <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#A9A9A9&#34;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
-</span></span><span style=display:flex><span><span style=color:#6272a4>-- Color Scheme Fix  对配色做一些自定义修正</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- Color Scheme Fix  对内置配色做一些自定义修正</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
-</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.o.background = &#34;dark&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.cmd(&#34;colorscheme default&#34;)</span>
+</span></span><span style=display:flex><span>vim.o.background <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;dark&#34;</span>
+</span></span><span style=display:flex><span>vim.cmd(<span style=color:#f1fa8c>&#34;colorscheme default&#34;</span>)
+</span></span><span style=display:flex><span>vim.api.nvim_set_hl(<span style=color:#bd93f9>0</span>, <span style=color:#f1fa8c>&#34;Number&#34;</span>, { fg <span style=color:#ff79c6>=</span> LIGHT_YELLOW, bold <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span> })
+</span></span><span style=display:flex><span>vim.api.nvim_set_hl(<span style=color:#bd93f9>0</span>, <span style=color:#f1fa8c>&#34;Comment&#34;</span>, { fg <span style=color:#ff79c6>=</span> DARK_GREY, bold <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span> })
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>vim.o.background <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;light&#34;</span>
-</span></span><span style=display:flex><span>vim.cmd(<span style=color:#f1fa8c>&#34;colorscheme quiet&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.o.background = &#34;light&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.cmd(&#34;colorscheme quiet&#34;)</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.api.nvim_set_hl(0, &#34;String&#34;, {fg = DARK_GREEN})</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.api.nvim_set_hl(0, &#34;Number&#34;, {fg = DARK_YELLOW, bold=true})</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Display and Controll  基础的浏览和控制功能</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Basic Display  基础的显示、浏览功能</span>
-</span></span><span style=display:flex><span>vim.opt.number <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                   <span style=color:#6272a4>-- Line numbers</span>
-</span></span><span style=display:flex><span>vim.opt.cursorline <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>               <span style=color:#6272a4>-- Highlight current line</span>
-</span></span><span style=display:flex><span>vim.opt.wrap <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>                    <span style=color:#6272a4>-- Don&#39;t wrap lines</span>
-</span></span><span style=display:flex><span>vim.opt.scrolloff <span style=color:#ff79c6>=</span> NUMBER_OF_KEEPLINES <span style=color:#6272a4>-- Keep lines above/below cursor </span>
+</span></span><span style=display:flex><span>vim.opt.number <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                     <span style=color:#6272a4>-- Show line numbers</span>
+</span></span><span style=display:flex><span>vim.opt.cursorline <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                 <span style=color:#6272a4>-- Highlight current line</span>
+</span></span><span style=display:flex><span>vim.opt.wrap <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>                      <span style=color:#6272a4>-- Don&#39;t wrap lines</span>
+</span></span><span style=display:flex><span>vim.opt.scrolloff <span style=color:#ff79c6>=</span> NUMBER_OF_KEEPLINES   <span style=color:#6272a4>-- Keep some lines above/below cursor when scroll</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Indentation  缩进相关</span>
-</span></span><span style=display:flex><span>vim.opt.tabstop <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE             <span style=color:#6272a4>-- Tab width</span>
-</span></span><span style=display:flex><span>vim.opt.shiftwidth <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE          <span style=color:#6272a4>-- Indent width</span>
-</span></span><span style=display:flex><span>vim.opt.softtabstop <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE         <span style=color:#6272a4>-- Soft tab stop</span>
-</span></span><span style=display:flex><span>vim.opt.expandtab <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>               <span style=color:#6272a4>-- Use spaces instead of tabs</span>
-</span></span><span style=display:flex><span>vim.opt.smartindent <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>             <span style=color:#6272a4>-- Smart auto-indenting</span>
-</span></span><span style=display:flex><span>vim.opt.autoindent <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>              <span style=color:#6272a4>-- Copy indent from current line</span>
+</span></span><span style=display:flex><span>vim.opt.tabstop <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE      <span style=color:#6272a4>-- Tab width</span>
+</span></span><span style=display:flex><span>vim.opt.shiftwidth <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE   <span style=color:#6272a4>-- Indent width</span>
+</span></span><span style=display:flex><span>vim.opt.softtabstop <span style=color:#ff79c6>=</span> NUMBER_OF_TABSPACE  <span style=color:#6272a4>-- Soft tab stop</span>
+</span></span><span style=display:flex><span>vim.opt.expandtab <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                  <span style=color:#6272a4>-- Use spaces instead of tabs</span>
+</span></span><span style=display:flex><span>vim.opt.smartindent <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                <span style=color:#6272a4>-- Smart auto-indenting</span>
+</span></span><span style=display:flex><span>vim.opt.autoindent <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                 <span style=color:#6272a4>-- Copy indent from current line</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Search settings  搜索设置</span>
-</span></span><span style=display:flex><span>vim.opt.ignorecase <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>              <span style=color:#6272a4>-- Case insensitive search</span>
-</span></span><span style=display:flex><span>vim.opt.smartcase <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>               <span style=color:#6272a4>-- Case sensitive if uppercase in search</span>
-</span></span><span style=display:flex><span>vim.opt.hlsearch <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                <span style=color:#6272a4>-- Highlight search results </span>
-</span></span><span style=display:flex><span>vim.opt.incsearch <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>               <span style=color:#6272a4>-- Show matches as you type</span>
+</span></span><span style=display:flex><span>vim.opt.ignorecase <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                 <span style=color:#6272a4>-- Case insensitive search</span>
+</span></span><span style=display:flex><span>vim.opt.smartcase <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                  <span style=color:#6272a4>-- Case sensitive if uppercase in search</span>
+</span></span><span style=display:flex><span>vim.opt.hlsearch <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                   <span style=color:#6272a4>-- Highlight search results </span>
+</span></span><span style=display:flex><span>vim.opt.incsearch <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                  <span style=color:#6272a4>-- Show matches as you type</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Highlight yanked text  复制的时候高亮闪烁一下</span>
 </span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> augroup <span style=color:#ff79c6>=</span> vim.api.nvim_create_augroup(<span style=color:#f1fa8c>&#34;UserConfig&#34;</span>, {})
 </span></span><span style=display:flex><span>vim.api.nvim_create_autocmd(<span style=color:#f1fa8c>&#34;TextYankPost&#34;</span>, {
@@ -73,7 +82,7 @@
 </span></span><span style=display:flex><span>vim.opt.writebackup <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>                        <span style=color:#6272a4>-- Don&#39;t create backup before writing</span>
 </span></span><span style=display:flex><span>vim.opt.swapfile <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>                           <span style=color:#6272a4>-- Don&#39;t create swap files</span>
 </span></span><span style=display:flex><span>vim.opt.undofile <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>                            <span style=color:#6272a4>-- Persistent undo</span>
-</span></span><span style=display:flex><span>vim.opt.undodir <span style=color:#ff79c6>=</span> vim.fn.expand(<span style=color:#f1fa8c>&#34;~/.vim/undodir&#34;</span>)  <span style=color:#6272a4>-- Undo directory</span>
+</span></span><span style=display:flex><span>vim.opt.undodir <span style=color:#ff79c6>=</span> vim.fn.expand(<span style=color:#f1fa8c>&#34;~/.config/nvim/undodir&#34;</span>)  
 </span></span><span style=display:flex><span>vim.opt.updatetime <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>250</span>                           <span style=color:#6272a4>-- Faster completion</span>
 </span></span><span style=display:flex><span>vim.opt.timeoutlen <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>500</span>                           <span style=color:#6272a4>-- Key timeout duration</span>
 </span></span><span style=display:flex><span>vim.opt.ttimeoutlen <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>                            <span style=color:#6272a4>-- Key code timeout</span>
@@ -173,17 +182,20 @@
 </span></span><span style=display:flex><span>  <span style=color:#ff79c6>end</span>,
 </span></span><span style=display:flex><span>})
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Compeletion  补全(路径补全+缓存词补全)</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- ============================================================================</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.keymap.set(&#39;i&#39;, &#39;&lt;Tab&gt;&#39;, &#39;pumvisible() ? &#34;&lt;C-n&gt;&#34; : &#34;&lt;Tab&gt;&#34;&#39;, { expr = true })</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- vim.keymap.set(&#39;i&#39;, &#39;&lt;S-Tab&gt;&#39;, &#39;pumvisible() ? &#34;&lt;C-p&gt;&#34; : &#34;&lt;S-Tab&gt;&#34;&#39;, { expr = true })</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- vscode-liked cmp menu.  类似 vscode 的补全功能(tab选择 回车确认)</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> <span style=color:#ff79c6>function</span> <span style=color:#50fa7b>feed_special_keys</span>(keys)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span> vim.api.nvim_replace_termcodes(keys, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>false</span>, <span style=color:#ff79c6>true</span>)
+</span></span><span style=display:flex><span>    vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>false</span>)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
+</span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#39;i&#39;</span>, <span style=color:#f1fa8c>&#39;&lt;Tab&gt;&#39;</span>, <span style=color:#ff79c6>function</span>()
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> vim.fn.pumvisible() <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>then</span>
-</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span> vim.api.nvim_replace_termcodes(<span style=color:#f1fa8c>&#39;&lt;Down&gt;&#39;</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span>        vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>false</span>)
+</span></span><span style=display:flex><span>        feed_special_keys(<span style=color:#f1fa8c>&#39;&lt;Down&gt;&#39;</span>)
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#f1fa8c>&#39;&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>else</span>
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#f1fa8c>&#39;&lt;Tab&gt;&#39;</span>
@@ -191,8 +203,7 @@
 </span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>, { expr <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span> })
 </span></span><span style=display:flex><span>vim.keymap.set(<span style=color:#f1fa8c>&#39;i&#39;</span>, <span style=color:#f1fa8c>&#39;&lt;S-Tab&gt;&#39;</span>, <span style=color:#ff79c6>function</span>()
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> vim.fn.pumvisible() <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>then</span>
-</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span> vim.api.nvim_replace_termcodes(<span style=color:#f1fa8c>&#39;&lt;Up&gt;&#39;</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span>        vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>false</span>)
+</span></span><span style=display:flex><span>        feed_special_keys(<span style=color:#f1fa8c>&#39;&lt;Up&gt;&#39;</span>)
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#f1fa8c>&#39;&#39;</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>else</span>
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#f1fa8c>&#39;&lt;S-Tab&gt;&#39;</span>
@@ -203,18 +214,6 @@
 </span></span><span style=display:flex><span>vim.opt.completeopt <span style=color:#ff79c6>=</span> {<span style=color:#f1fa8c>&#39;menu&#39;</span>, <span style=color:#f1fa8c>&#39;menuone&#39;</span>, <span style=color:#f1fa8c>&#39;noinsert&#39;</span>, <span style=color:#f1fa8c>&#39;noselect&#39;</span>}
 </span></span><span style=display:flex><span>vim.opt.wildmenu <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>
 </span></span><span style=display:flex><span>vim.opt.wildmode <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;longest:full,full&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> <span style=color:#ff79c6>function</span> <span style=color:#50fa7b>feed_c_n</span>()
-</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span> vim.api.nvim_replace_termcodes(<span style=color:#f1fa8c>&#39;&lt;C-n&gt;&#39;</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>false</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span>  vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
-</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> <span style=color:#ff79c6>function</span> <span style=color:#50fa7b>feed_c_e</span>()
-</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span>  vim.api.nvim_replace_termcodes(<span style=color:#f1fa8c>&#34;&lt;C-e&gt;&#34;</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>false</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span>  vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
-</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>local</span> <span style=color:#ff79c6>function</span> <span style=color:#50fa7b>feed_c_x_c_f</span>()
-</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>local</span> keys <span style=color:#ff79c6>=</span>  vim.api.nvim_replace_termcodes(<span style=color:#f1fa8c>&#34;&lt;C-x&gt;&lt;C-f&gt;&#34;</span>, <span style=color:#ff79c6>true</span>, <span style=color:#ff79c6>false</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span>  vim.api.nvim_feedkeys(keys, <span style=color:#f1fa8c>&#39;n&#39;</span>, <span style=color:#ff79c6>true</span>)
-</span></span><span style=display:flex><span><span style=color:#ff79c6>end</span>
 </span></span><span style=display:flex><span><span style=color:#6272a4>-- Event Listener</span>
 </span></span><span style=display:flex><span>vim.api.nvim_create_autocmd({<span style=color:#f1fa8c>&#39;TextChangedI&#39;</span>, <span style=color:#f1fa8c>&#39;TextChangedP&#39;</span>}, { <span style=color:#6272a4>-- I for normal env, P for popmenu env</span>
 </span></span><span style=display:flex><span>  pattern <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;*&#39;</span>,
@@ -228,14 +227,14 @@
 </span></span><span style=display:flex><span>    <span style=color:#6272a4>--========== 路径补全 ==========--</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> prev_chars:match(<span style=color:#f1fa8c>&#39;[/]&#39;</span>) <span style=color:#ff79c6>then</span>
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>not</span> pum_visible <span style=color:#ff79c6>then</span> 
-</span></span><span style=display:flex><span>        vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_c_x_c_f) <span style=color:#ff79c6>end</span>)
+</span></span><span style=display:flex><span>        vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_special_keys, <span style=color:#f1fa8c>&#39;&lt;C-x&gt;&lt;C-f&gt;&#39;</span>) <span style=color:#ff79c6>end</span>)
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>end</span>
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
 </span></span><span style=display:flex><span>    <span style=color:#6272a4>--========== 缓冲区补全 ==========--</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>not</span> prev_chars:match(<span style=color:#f1fa8c>&#39;[%w_][%w_]&#39;</span>) <span style=color:#ff79c6>then</span>
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> pum_visible <span style=color:#ff79c6>then</span> 
-</span></span><span style=display:flex><span>        vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_c_e) <span style=color:#ff79c6>end</span>)
+</span></span><span style=display:flex><span>        vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_special_keys, <span style=color:#f1fa8c>&#39;&lt;C-e&gt;&#39;</span>) <span style=color:#ff79c6>end</span>)
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>end</span>
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
@@ -248,7 +247,7 @@
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span>
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>end</span>
 </span></span><span style=display:flex><span>    <span style=color:#6272a4>-- 触发补全</span>
-</span></span><span style=display:flex><span>    vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_c_n) <span style=color:#ff79c6>end</span>)
+</span></span><span style=display:flex><span>    vim.schedule(<span style=color:#ff79c6>function</span>() pcall(feed_special_keys, <span style=color:#f1fa8c>&#39;&lt;C-n&gt;&#39;</span>) <span style=color:#ff79c6>end</span>)
 </span></span><span style=display:flex><span>  <span style=color:#ff79c6>end</span>,
 </span></span><span style=display:flex><span>})
 </span></span><span style=display:flex><span>

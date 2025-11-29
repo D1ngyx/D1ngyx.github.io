@@ -10,7 +10,7 @@ toc = true  # 启用目录
 -- #####################################################
 -- ##  ~/.config/nvim/init.lua                        ##
 -- ##  Minimal Require: Neovim 0.7.0 (gclib >= 2.27)  ##
--- ##  Last Update: 2025.11.27                        ##
+-- ##  Last Update: 2025.11.29                        ##
 -- ##  By: dingyx109@gmail.com                        ##
 -- #####################################################
 
@@ -27,39 +27,48 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("n", "<leader>s", ":w<CR>", {remap=true})
-vim.keymap.set("n", "<leader>ff", ":find ", { desc = "Find file" })
+vim.keymap.set("n", "<leader>q", ":q<CR>", {remap=true})
+vim.keymap.set("n", "<leader>ff", ":find ", {desc = "Find file"})
+local DARK_YELLOW = "#b58900"
+local DARK_GREEN = "#228b22"
+local LIGHT_YELLOW = "#ffd700"
+local DARK_GREY = "#A9A9A9"
 
 
 -- ============================================================================
--- Color Scheme Fix  对配色做一些自定义修正
+-- Color Scheme Fix  对内置配色做一些自定义修正
 -- ============================================================================
--- vim.o.background = "dark"
--- vim.cmd("colorscheme default")
+vim.o.background = "dark"
+vim.cmd("colorscheme default")
+vim.api.nvim_set_hl(0, "Number", { fg = LIGHT_YELLOW, bold = true })
+vim.api.nvim_set_hl(0, "Comment", { fg = DARK_GREY, bold = true })
 
-vim.o.background = "light"
-vim.cmd("colorscheme quiet")
+-- vim.o.background = "light"
+-- vim.cmd("colorscheme quiet")
+-- vim.api.nvim_set_hl(0, "String", {fg = DARK_GREEN})
+-- vim.api.nvim_set_hl(0, "Number", {fg = DARK_YELLOW, bold=true})
 
 
 -- ============================================================================
 -- Display and Controll  基础的浏览和控制功能
 -- ============================================================================
 -- Basic Display  基础的显示、浏览功能
-vim.opt.number = true                   -- Line numbers
-vim.opt.cursorline = true               -- Highlight current line
-vim.opt.wrap = false                    -- Don't wrap lines
-vim.opt.scrolloff = NUMBER_OF_KEEPLINES -- Keep lines above/below cursor 
+vim.opt.number = true                     -- Show line numbers
+vim.opt.cursorline = true                 -- Highlight current line
+vim.opt.wrap = false                      -- Don't wrap lines
+vim.opt.scrolloff = NUMBER_OF_KEEPLINES   -- Keep some lines above/below cursor when scroll
 -- Indentation  缩进相关
-vim.opt.tabstop = NUMBER_OF_TABSPACE             -- Tab width
-vim.opt.shiftwidth = NUMBER_OF_TABSPACE          -- Indent width
-vim.opt.softtabstop = NUMBER_OF_TABSPACE         -- Soft tab stop
-vim.opt.expandtab = true               -- Use spaces instead of tabs
-vim.opt.smartindent = true             -- Smart auto-indenting
-vim.opt.autoindent = true              -- Copy indent from current line
+vim.opt.tabstop = NUMBER_OF_TABSPACE      -- Tab width
+vim.opt.shiftwidth = NUMBER_OF_TABSPACE   -- Indent width
+vim.opt.softtabstop = NUMBER_OF_TABSPACE  -- Soft tab stop
+vim.opt.expandtab = true                  -- Use spaces instead of tabs
+vim.opt.smartindent = true                -- Smart auto-indenting
+vim.opt.autoindent = true                 -- Copy indent from current line
 -- Search settings  搜索设置
-vim.opt.ignorecase = true              -- Case insensitive search
-vim.opt.smartcase = true               -- Case sensitive if uppercase in search
-vim.opt.hlsearch = true                -- Highlight search results 
-vim.opt.incsearch = true               -- Show matches as you type
+vim.opt.ignorecase = true                 -- Case insensitive search
+vim.opt.smartcase = true                  -- Case sensitive if uppercase in search
+vim.opt.hlsearch = true                   -- Highlight search results 
+vim.opt.incsearch = true                  -- Show matches as you type
 -- Highlight yanked text  复制的时候高亮闪烁一下
 local augroup = vim.api.nvim_create_augroup("UserConfig", {})
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -82,7 +91,7 @@ vim.opt.backup = false                             -- Don't create backup files
 vim.opt.writebackup = false                        -- Don't create backup before writing
 vim.opt.swapfile = false                           -- Don't create swap files
 vim.opt.undofile = true                            -- Persistent undo
-vim.opt.undodir = vim.fn.expand("~/.vim/undodir")  -- Undo directory
+vim.opt.undodir = vim.fn.expand("~/.config/nvim/undodir")  
 vim.opt.updatetime = 250                           -- Faster completion
 vim.opt.timeoutlen = 500                           -- Key timeout duration
 vim.opt.ttimeoutlen = 0                            -- Key code timeout
@@ -182,17 +191,20 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-
 -- ============================================================================
 -- Compeletion  补全(路径补全+缓存词补全)
 -- ============================================================================
 -- vim.keymap.set('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"', { expr = true })
 -- vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"', { expr = true })
 -- vscode-liked cmp menu.  类似 vscode 的补全功能(tab选择 回车确认)
+local function feed_special_keys(keys)
+    local keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(keys, 'n', false)
+end
+
 vim.keymap.set('i', '<Tab>', function()
     if vim.fn.pumvisible() == 1 then
-        local keys = vim.api.nvim_replace_termcodes('<Down>', true, true, true)
-        vim.api.nvim_feedkeys(keys, 'n', false)
+        feed_special_keys('<Down>')
         return ''
     else
         return '<Tab>'
@@ -200,8 +212,7 @@ vim.keymap.set('i', '<Tab>', function()
 end, { expr = true })
 vim.keymap.set('i', '<S-Tab>', function()
     if vim.fn.pumvisible() == 1 then
-        local keys = vim.api.nvim_replace_termcodes('<Up>', true, true, true)
-        vim.api.nvim_feedkeys(keys, 'n', false)
+        feed_special_keys('<Up>')
         return ''
     else
         return '<S-Tab>'
@@ -212,18 +223,6 @@ vim.opt.complete = {'.', 'w', 'b', 'u', 't'}
 vim.opt.completeopt = {'menu', 'menuone', 'noinsert', 'noselect'}
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
-local function feed_c_n()
-  local keys = vim.api.nvim_replace_termcodes('<C-n>', true, false, true)
-  vim.api.nvim_feedkeys(keys, 'n', true)
-end
-local function feed_c_e()
-  local keys =  vim.api.nvim_replace_termcodes("<C-e>", true, false, true)
-  vim.api.nvim_feedkeys(keys, 'n', true)
-end
-local function feed_c_x_c_f()
-  local keys =  vim.api.nvim_replace_termcodes("<C-x><C-f>", true, false, true)
-  vim.api.nvim_feedkeys(keys, 'n', true)
-end
 -- Event Listener
 vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, { -- I for normal env, P for popmenu env
   pattern = '*',
@@ -237,14 +236,14 @@ vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, { -- I for normal 
     --========== 路径补全 ==========--
     if prev_chars:match('[/]') then
       if not pum_visible then 
-        vim.schedule(function() pcall(feed_c_x_c_f) end)
+        vim.schedule(function() pcall(feed_special_keys, '<C-x><C-f>') end)
       end
       return
     end
     --========== 缓冲区补全 ==========--
     if not prev_chars:match('[%w_][%w_]') then
       if pum_visible then 
-        vim.schedule(function() pcall(feed_c_e) end)
+        vim.schedule(function() pcall(feed_special_keys, '<C-e>') end)
       end
       return
     end
@@ -257,7 +256,7 @@ vim.api.nvim_create_autocmd({'TextChangedI', 'TextChangedP'}, { -- I for normal 
       return
     end
     -- 触发补全
-    vim.schedule(function() pcall(feed_c_n) end)
+    vim.schedule(function() pcall(feed_special_keys, '<C-n>') end)
   end,
 })
 
